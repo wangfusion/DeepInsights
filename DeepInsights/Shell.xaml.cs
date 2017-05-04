@@ -10,7 +10,7 @@ namespace DeepInsights.Shell
         public Shell()
         {
             InitializeComponent();
-            Title = "DeepInsights";
+            Title = "DeepInsights Beta";
         }
     }
 }

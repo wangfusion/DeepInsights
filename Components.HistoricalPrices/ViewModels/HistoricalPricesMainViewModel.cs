@@ -1,6 +1,7 @@
 ﻿using DeepInsights.Components.HistoricalPrices.Models;
 using DeepInsights.Services;
 using DeepInsights.Shell.Infrastructure;
+using DeepInsights.Shell.Infrastructure.Constants;
 using DeepInsights.Shell.Infrastructure.Utility;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
@@ -9,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml;
 
 namespace DeepInsights.Components.HistoricalPrices.ViewModels
@@ -21,8 +24,13 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
 
         private string _YAxisLabel;
         private string _XAxisLabel;
+        private string _InstrumentName;
         private bool _HasPricesLoaded;
+
         private readonly IForexHistoricalPricesService _ForexHistoricalPricesService;
+        private ImageSource positiveDynamic = new BitmapImage(new Uri(ImageConstants.ArrowUp));
+        private ImageSource negativeDynamic = new BitmapImage(new Uri(ImageConstants.ArrowDown));
+        private ImageSource zeroDynamic = new BitmapImage(new Uri(ImageConstants.ZeroDynamic));
 
         #endregion
 
@@ -84,6 +92,19 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
             }
         }
 
+        public string InstrumentName
+        {
+            get { return _InstrumentName; }
+            set
+            {
+                if (_InstrumentName != value)
+                {
+                    SetProperty(ref _InstrumentName, value);
+                    OnPropertyChanged(() => InstrumentName);
+                }
+            }
+        }
+
         public RangeObservableCollection<Candle> Candles
         {
             get;
@@ -109,6 +130,7 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
             Candles = new RangeObservableCollection<Candle>();
             YAxisLabel = "Price";
             XAxisLabel = "Granularity: " + CandlestickConstants.Day;
+            InstrumentName = CurrencyConstants.EUR_USD;
         }
 
         private void InitializeCommands()
@@ -123,9 +145,10 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
 
         private async Task GetCandlestickData()
         {
-            string candlesJson = await _ForexHistoricalPricesService.GetCandleSticksData(CurrencyConstants.EUR_USD, CandlestickConstants.AskCandles, CandlestickConstants.Day, DateTime.Now.AddMonths(-1), DateTime.Now);
+            string candlesJson = await _ForexHistoricalPricesService.GetCandleSticksData(CurrencyConstants.EUR_USD, CandlestickConstants.AskCandles, CandlestickConstants.Day, DateTime.Now.AddMonths(-1), DateTime.Now.AddDays(-1));
             dynamic candlesResult = JsonConvert.DeserializeObject(candlesJson);
 
+            Candle lastCandle = null;
             var candles = new List<Candle>();
             foreach (dynamic candle in candlesResult.candles)
             {
@@ -137,11 +160,32 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
                 decimal low = candle.ask.l;
                 decimal close = candle.ask.c;
 
-                candles.Add(new Candle(open, high, low, close, time, volume));
+                var currentCandle = new Candle(open, high, low, close, time, volume);
+                if (lastCandle != null)
+                {
+                    currentCandle.CandleTooltip.OpenDynamic = GetCandleDynamic(lastCandle.Open, currentCandle.Open).ImageSource;
+                    currentCandle.CandleTooltip.CloseDynamic = GetCandleDynamic(lastCandle.Close, currentCandle.Close).ImageSource;
+                    currentCandle.CandleTooltip.HighDynamic = GetCandleDynamic(lastCandle.High, currentCandle.High).ImageSource;
+                    currentCandle.CandleTooltip.LowDynamic = GetCandleDynamic(lastCandle.Low, currentCandle.Low).ImageSource;
+                    currentCandle.CandleTooltip.OpenFontBrush = GetCandleDynamic(lastCandle.Open, currentCandle.Open).Brush;
+                    currentCandle.CandleTooltip.CloseFontBrush = GetCandleDynamic(lastCandle.Close, currentCandle.Close).Brush;
+                    currentCandle.CandleTooltip.HighFontBrush = GetCandleDynamic(lastCandle.High, currentCandle.High).Brush;
+                    currentCandle.CandleTooltip.LowFontBrush = GetCandleDynamic(lastCandle.Low, currentCandle.Low).Brush;
+                }
+                candles.Add(lastCandle);
+                lastCandle = currentCandle;
             }
 
             Candles.ClearAndAddRange(candles);
             HasPricesLoaded = true;
+        }
+
+        private CandleDynamic GetCandleDynamic(decimal previousValue, decimal currentValue)
+        {
+            return previousValue < currentValue 
+                    ? new CandleDynamic(new SolidColorBrush(Color.FromArgb(255, 63, 171, 0)), positiveDynamic)
+                    : previousValue > currentValue ? new CandleDynamic(new SolidColorBrush(Color.FromArgb(255, 213, 50, 35)), negativeDynamic)
+                                                   : new CandleDynamic(new SolidColorBrush(Color.FromArgb(255, 161, 161, 161)), zeroDynamic);
         }
 
         #endregion

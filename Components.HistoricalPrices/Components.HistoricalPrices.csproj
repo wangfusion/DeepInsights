@@ -88,6 +88,8 @@
   <ItemGroup>
     <Compile Include="Models\Candle.cs" />
     <Compile Include="HistoricalPricesModule.cs" />
+    <Compile Include="Models\CandleDynamic.cs" />
+    <Compile Include="Models\CandleTooltip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\HistoricalPricesMainViewModel.cs" />
     <Compile Include="Views\HistoricalPricesMainView.xaml.cs">

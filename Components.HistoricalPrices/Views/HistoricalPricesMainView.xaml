@@ -17,6 +17,39 @@
                 <commonutils:SharedResourceDictionary Source="/DeepInsights.Shell.Infrastructure;component/CommonResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
+            <DataTemplate x:Key="CandleTooltipTemplate">
+                <Grid UseLayoutRounding="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="75" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Background="#FFA1A1A1" Grid.ColumnSpan="3" Grid.Row="4" Margin="1,8,1,0">
+                        <TextBlock TextAlignment="Center" Text="{Binding Hint.Owner.Time, StringFormat='{}{0:d}'}"
+                                   Height="30" Foreground="White" FontSize="14" Padding="3,5,3,3" FontWeight="Thin" />
+                    </Border>
+                    <Image Stretch="None" Source="{Binding Hint.HighDynamic}" Grid.Row="0" Grid.Column="2" Margin="2,0,5,0" VerticalAlignment="Center" />
+                    <Image Stretch="None" Source="{Binding Hint.LowDynamic}"   Grid.Row="1" Grid.Column="2" Margin="2,0,5,0" VerticalAlignment="Center"/>
+                    <Image Stretch="None" Source="{Binding Hint.OpenDynamic}"  Grid.Row="2" Grid.Column="2" Margin="2,0,5,0" VerticalAlignment="Center"/>
+                    <Image Stretch="None" Source="{Binding Hint.CloseDynamic}" Grid.Row="3" Grid.Column="2" Margin="2,0,5,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Margin="10,2,10,2">High:</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" Margin="10,2,10,2">Low:</TextBlock>
+                    <TextBlock Grid.Row="2" Grid.Column="0" FontWeight="Bold" Margin="10,2,10,2">Open:</TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="0" FontWeight="Bold" Margin="10,2,10,2">Close:</TextBlock>
+                    <TextBlock VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" Margin="3,2,3,2" Text="{Binding Hint.Owner.High}"  TextAlignment="Right" FontWeight="Bold" Foreground="{Binding Hint.HighFontBrush}"/>
+                    <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="3,2,3,2" Text="{Binding Hint.Owner.Low}"   TextAlignment="Right" FontWeight="Bold" Foreground="{Binding Hint.LowFontBrush}"/>
+                    <TextBlock VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Margin="3,2,3,2" Text="{Binding Hint.Owner.Open}"  TextAlignment="Right" FontWeight="Bold" Foreground="{Binding Hint.OpenFontBrush}"/>
+                    <TextBlock VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Margin="3,2,3,2" Text="{Binding Hint.Owner.Close}" TextAlignment="Right" FontWeight="Bold" Foreground="{Binding Hint.CloseFontBrush}"/>
+                </Grid>
+            </DataTemplate>
+
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
@@ -61,10 +94,12 @@
                         </dxc:AxisX2D>
                     </dxc:XYDiagram2D.AxisX>
                     <dxc:XYDiagram2D.Series>
-                        <dxc:CandleStickSeries2D DisplayName="{Binding YAxisLabel}" ArgumentScaleType="DateTime" CandleWidth="0.9"
+                        <dxc:CandleStickSeries2D DisplayName="{Binding InstrumentName}" ArgumentScaleType="DateTime" CandleWidth="0.9"
                                                  ArgumentDataMember="Time" HighValueDataMember="High" LowValueDataMember="Low"
                                                  OpenValueDataMember="Open" CloseValueDataMember="Close" DataSource="{Binding Candles}"
-                                                 AnimationAutoStartMode="PlayOnce" DataContext="{Binding}">
+                                                 AnimationAutoStartMode="PlayOnce" DataContext="{Binding}"
+                                                 ToolTipHintDataMember="CandleTooltip"
+                                                 ToolTipPointTemplate="{StaticResource CandleTooltipTemplate}">
                             <dxc:CandleStickSeries2D.ReductionOptions>
                                 <dxc:ReductionStockOptions />
                             </dxc:CandleStickSeries2D.ReductionOptions>

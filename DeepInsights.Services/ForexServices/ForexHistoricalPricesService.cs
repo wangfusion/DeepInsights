@@ -23,7 +23,6 @@ namespace DeepInsights.Services.ForexServices
 
             using (var webClient = new WebClient())
             {
-                Thread.Sleep(1000);
                 SetAuthorizationHeader(webClient);
 
                 webClient.QueryString.Add("price", candlePriceType);

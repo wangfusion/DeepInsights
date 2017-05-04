@@ -12,7 +12,12 @@ namespace DeepInsights.Components.HistoricalPrices.Models
             Close = close;
             Time = time;
             Volume = volume;
+
+            CandleTooltip = new CandleTooltip();
+            CandleTooltip.Owner = this;
         }
+
+        public CandleTooltip CandleTooltip { get; private set; }
 
         public decimal Open { get; private set; }
 

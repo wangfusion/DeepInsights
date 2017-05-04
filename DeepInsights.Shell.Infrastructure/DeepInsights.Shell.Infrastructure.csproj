@@ -80,6 +80,7 @@
     <Compile Include="Constants\ApplicationConstants.cs" />
     <Compile Include="Constants\CandlestickConstants.cs" />
     <Compile Include="Constants\CurrencyConstants.cs" />
+    <Compile Include="Constants\ImageConstants.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Utility\ErrorsContainerEnhanced.cs" />
     <Compile Include="RegionNames.cs" />
@@ -97,7 +98,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Resource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\ArrowDown.png" />
+    <Resource Include="Images\ArrowUp.png" />
+    <Resource Include="Images\Volume.png" />
+    <Resource Include="Images\ZeroDynamic.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

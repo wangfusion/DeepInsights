@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using DevExpress.Xpf.Core;
 
 namespace DeepInsights.Shell
 {
@@ -6,7 +7,9 @@ namespace DeepInsights.Shell
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            ApplicationThemeHelper.ApplicationThemeName = Theme.MetropolisDarkName;
             base.OnStartup(e);
+
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
         }
