@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FCBDAA14-EBD8-4C60-B98A-2F20C12DF515}</ProjectGuid>
+    <ProjectGuid>{39527908-4507-429B-AB2B-30180399578E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DeepInsights.Components.MarketNews</RootNamespace>
-    <AssemblyName>Deepinsights.Components.MarketNews</AssemblyName>
+    <RootNamespace>DeepInsights.Components.HistoricalPrices</RootNamespace>
+    <AssemblyName>DeepInsights.Components.HistoricalPrices</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -69,11 +69,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -85,21 +81,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\News.cs" />
-    <Compile Include="NewsConstants.cs" />
-    <Compile Include="ViewModels\MarketNewsMainViewModel.cs" />
-    <Compile Include="Views\MarketNewsMainView.xaml.cs">
-      <DependentUpon>MarketNewsMainView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MarketNewsModule.cs" />
+    <Compile Include="HistoricalPricesModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="ViewModels\HistoricalPricesMainViewModel.cs" />
+    <Compile Include="Views\HistoricalPricesMainView.xaml.cs">
+      <DependentUpon>HistoricalPricesMainView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeepInsights.Services\DeepInsights.Services.csproj">
-      <Project>{D69E1F48-DBE3-4A41-95C5-10286E9C1ABB}</Project>
+      <Project>{d69e1f48-dbe3-4a41-95c5-10286e9c1abb}</Project>
       <Name>DeepInsights.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeepInsights.Shell.Infrastructure\DeepInsights.Shell.Infrastructure.csproj">
@@ -108,12 +99,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\MarketNewsMainView.xaml">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\HistoricalPricesMainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

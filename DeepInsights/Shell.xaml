@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DeepInsights"
         xmlns:cal="http://www.codeplex.com/prism"
         xmlns:infra="clr-namespace:DeepInsights.Shell.Infrastructure;assembly=DeepInsights.Shell.Infrastructure"
-        mc:Ignorable="d" Title="Shell" Height="800" Width="800">
+        mc:Ignorable="d" Title="Shell" Height="800" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -15,6 +15,8 @@
         </Grid.ColumnDefinitions>
         <ContentControl Name="LeftMostRegion" Grid.Column="0"
                         cal:RegionManager.RegionName="{x:Static Member=infra:RegionNames.LeftMostRegion}" />
+        <ContentControl Name="CenterRegion" Grid.Column="1"
+                        cal:RegionManager.RegionName="{x:Static Member=infra:RegionNames.CenterRegion}" />
         <ContentControl Name="RightMostRegion" Grid.Column="2"
                         cal:RegionManager.RegionName="{x:Static Member=infra:RegionNames.RightMostRegion}" />
     </Grid>

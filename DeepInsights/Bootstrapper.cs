@@ -1,12 +1,14 @@
-﻿using System;
-using System.Windows;
-using Microsoft.Practices.Prism.MefExtensions;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Prism.Modularity;
-using ModuleCatalogInstance = Microsoft.Practices.Prism.Modularity.ModuleCatalog;
+﻿using DeepInsights.Components.HistoricalPrices;
+using DeepInsights.Components.LivePrices;
 using DeepInsights.Components.MarketNews;
+using DeepInsights.Services;
+using Microsoft.Practices.Prism.MefExtensions;
+using Microsoft.Practices.Prism.Modularity;
+using Microsoft.Practices.ServiceLocation;
+using System;
 using System.ComponentModel.Composition.Hosting;
-using Components.LivePrices;
+using System.Windows;
+using ModuleCatalogInstance = Microsoft.Practices.Prism.Modularity.ModuleCatalog;
 
 namespace DeepInsights.Shell
 {
@@ -37,6 +39,8 @@ namespace DeepInsights.Shell
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(Bootstrapper).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(MarketNewsModule).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(LivePricesModule).Assembly));
+            AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(HistoricalPricesModule).Assembly));
+            AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(IForexLivePricesService).Assembly));
         }
 
         #endregion

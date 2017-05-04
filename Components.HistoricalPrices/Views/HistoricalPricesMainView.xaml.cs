@@ -1,15 +1,15 @@
-﻿using DeepInsights.Components.LivePrices.ViewModels;
+﻿using DeepInsights.Components.HistoricalPrices.ViewModels;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 
-namespace DeepInsights.Components.LivePrices.Views
+namespace DeepInsights.Components.HistoricalPrices.Views
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public partial class LivePricesMainView : UserControl
+    public partial class HistoricalPricesMainView : UserControl
     {
         [ImportingConstructor]
-        public LivePricesMainView(LivePricesMainViewModel viewModel)
+        public HistoricalPricesMainView(HistoricalPricesMainViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;

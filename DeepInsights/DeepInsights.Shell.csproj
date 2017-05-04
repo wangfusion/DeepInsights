@@ -138,9 +138,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Components.HistoricalPrices\Components.HistoricalPrices.csproj">
+      <Project>{39527908-4507-429b-ab2b-30180399578e}</Project>
+      <Name>Components.HistoricalPrices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Components.LivePrices\Components.LivePrices.csproj">
       <Project>{63e295b8-35bb-4b32-9d98-2368be9b6068}</Project>
       <Name>Components.LivePrices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeepInsights.Services\DeepInsights.Services.csproj">
+      <Project>{d69e1f48-dbe3-4a41-95c5-10286e9c1abb}</Project>
+      <Name>DeepInsights.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeepInsights.Shell.Infrastructure\DeepInsights.Shell.Infrastructure.csproj">
       <Project>{d6d2ee87-6d4d-4f73-aaf6-04a02a8d0a5a}</Project>

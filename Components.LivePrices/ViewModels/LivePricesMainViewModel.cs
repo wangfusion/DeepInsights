@@ -1,41 +1,71 @@
-﻿using DeepInsights.Shell.Infrastructure;
+﻿using DeepInsights.Components.LivePrices.Models;
+using DeepInsights.Services;
+using DeepInsights.Shell.Infrastructure;
+using DeepInsights.Shell.Infrastructure.Utility;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Newtonsoft.Json;
-using System.Net;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Threading.Tasks;
 
 namespace DeepInsights.Components.LivePrices.ViewModels
 {
+    [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class LivePricesMainViewModel : BindableBase
     {
         #region Private Fields
 
-        private string _TestPrice;
+        private bool _HasQuotesLoaded;
+        private readonly IForexLivePricesService _ForexLivePricesService;
 
         #endregion
 
         #region Constructor
 
-        public LivePricesMainViewModel()
+        [ImportingConstructor]
+        public LivePricesMainViewModel(IForexLivePricesService forexLivePricesService)
         {
-            InitializeCommands();         
+            InitializeCommands();
+            Instruments = new RangeObservableCollection<Instrument>();
+
+            if (forexLivePricesService == null)
+            {
+                throw new ArgumentNullException("forexLivePricesService");
+            }
+            _ForexLivePricesService = forexLivePricesService;
         }
 
         #endregion
 
         #region Properties
 
-        public string TestPrice
+        public RangeObservableCollection<Instrument> Instruments
         {
-            get { return _TestPrice; }
-            set { SetProperty(ref _TestPrice, value); }
+            get;
+            set;
+        }
+
+        public bool HasQuotesLoaded
+        {
+            get { return _HasQuotesLoaded; }
+            set
+            {
+                if (_HasQuotesLoaded != value)
+                {
+                    SetProperty(ref _HasQuotesLoaded, value);
+                    OnPropertyChanged(() => HasQuotesLoaded);
+                }
+            }
         }
 
         #endregion
 
         #region Commands
 
-        public DelegateCommand RefreshPricesCommand
+        public DelegateCommand ViewLoadedCommand
         {
             get;
             private set;
@@ -47,23 +77,40 @@ namespace DeepInsights.Components.LivePrices.ViewModels
 
         private void InitializeCommands()
         {
-            RefreshPricesCommand = new DelegateCommand(FetchLivePrices);
+            ViewLoadedCommand = new DelegateCommand(ViewLoaded);
         }
 
-        private void FetchLivePrices()
+        private async void ViewLoaded()
         {
-            using (var webClient = new WebClient())
+            await FetchLivePrices();
+        }
+
+        private async Task FetchLivePrices()
+        {
+            var quoteNames = new List<string>
             {
-                webClient.Headers.Add("Authorization", "Bearer " + ApplicationConstants.FX_TOKEN);
-                webClient.QueryString.Add("instruments", CurrencyConstants.EUR_USD);
+                CurrencyConstants.AUD_CAD, CurrencyConstants.AUD_CHF, CurrencyConstants.AUD_JPY, CurrencyConstants.AUD_NZD, CurrencyConstants.AUD_USD,
+                CurrencyConstants.CAD_CHF, CurrencyConstants.CAD_JPY, CurrencyConstants.CHF_JPY, CurrencyConstants.EUR_AUD, CurrencyConstants.EUR_CAD,
+                CurrencyConstants.EUR_CHF, CurrencyConstants.EUR_GBP, CurrencyConstants.EUR_JPY, CurrencyConstants.EUR_NZD
+            };
+            string forexPricesJson = await _ForexLivePricesService.GetLiveForexPricesJson(quoteNames);
+            dynamic pricesResult = JsonConvert.DeserializeObject(forexPricesJson);
 
-                string result = webClient.DownloadString(ApplicationConstants.FX_URL + ApplicationConstants.FX_PRICING_ENDPOINT);
-                dynamic prices = JsonConvert.DeserializeObject(result);
-                dynamic price = prices.prices[0];
-
+            var forexInstruments = new List<Instrument>();
+            foreach (dynamic price in pricesResult.prices)
+            {
+                string quoteName = price.instrument;
                 double bid = price.bids[0].price;
                 double ask = price.asks[0].price;
+                double spread = ask - bid;
+                double lowestBid = bid;
+                double highestAsk = ask;
+
+                forexInstruments.Add(new ForexInstrument { QuoteName = quoteName, Spread = spread, Bid = bid, Ask = ask, LowestBid = lowestBid, HighestAsk = highestAsk });
             }
+
+            Instruments.ClearAndAddRange(forexInstruments);
+            HasQuotesLoaded = true;
         }
 
         #endregion

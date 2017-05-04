@@ -3,28 +3,53 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:vm="clr-namespace:DeepInsights.Components.MarketNews.ViewModels"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <Style x:Key="ErrorStyle" TargetType="FrameworkElement">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="True">
-                    <Setter Property="ToolTip"
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <commonutils:SharedResourceDictionary Source="/DeepInsights.Shell.Infrastructure;component/CommonResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="NewsTemplate">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Title}" />
+                    <TextBlock Text="{Binding PublishDate, StringFormat=dd-MMM-yyyy HH:mm}" Style="{StaticResource MiniLabelStyle}" />
+                </StackPanel>                
+            </DataTemplate>
+            
+            <Style x:Key="ErrorStyle" TargetType="FrameworkElement">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="ToolTip"
                             Value="{Binding RelativeSource={x:Static RelativeSource.Self}, 
                                             Path=(Validation.Errors).CurrentItem.ErrorContent}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <vm:MarketNewsMainViewModel />
-    </UserControl.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Grid>
+        <dx:WaitIndicator Content="Loading News..." DeferedVisibility="{Binding HasNewsLoaded, Converter={StaticResource InverseBooleanConverter}}" />
+        <ListBox ItemsSource="{Binding DailyNews}" Visibility="{Binding HasNewsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
+                 ItemTemplate="{StaticResource NewsTemplate}" />
         <StackPanel>
-            <TextBlock Text="Mobile" />
             <TextBox Text="{Binding Path=Mobile, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource ErrorStyle}" />
+                     Style="{StaticResource ErrorStyle}" Visibility="Collapsed" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding Errors}"
                       TextBlock.Foreground="Red" />

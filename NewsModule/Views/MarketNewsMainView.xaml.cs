@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using DeepInsights.Components.MarketNews.ViewModels;
+using System.ComponentModel.Composition;
 using System.Windows.Controls;
 
 namespace DeepInsights.Components.MarketNews.Views
@@ -7,9 +8,11 @@ namespace DeepInsights.Components.MarketNews.Views
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class MarketNewsMainView : UserControl
     {
-        public MarketNewsMainView()
+        [ImportingConstructor]
+        public MarketNewsMainView(MarketNewsMainViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
     }
 }
