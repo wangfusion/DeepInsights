@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ApplicationConstants.cs" />
+    <Compile Include="Constants\CandlestickConstants.cs" />
     <Compile Include="Constants\CurrencyConstants.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Utility\ErrorsContainerEnhanced.cs" />

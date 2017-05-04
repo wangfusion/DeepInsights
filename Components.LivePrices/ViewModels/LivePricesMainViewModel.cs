@@ -100,11 +100,11 @@ namespace DeepInsights.Components.LivePrices.ViewModels
             foreach (dynamic price in pricesResult.prices)
             {
                 string quoteName = price.instrument;
-                double bid = price.bids[0].price;
-                double ask = price.asks[0].price;
-                double spread = ask - bid;
-                double lowestBid = bid;
-                double highestAsk = ask;
+                decimal bid = price.bids[0].price;
+                decimal ask = price.asks[0].price;
+                decimal spread = ask - bid;
+                decimal lowestBid = bid;
+                decimal highestAsk = ask;
 
                 forexInstruments.Add(new ForexInstrument { QuoteName = quoteName, Spread = spread, Bid = bid, Ask = ask, LowestBid = lowestBid, HighestAsk = highestAsk });
             }

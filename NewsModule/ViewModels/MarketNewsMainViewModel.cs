@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 

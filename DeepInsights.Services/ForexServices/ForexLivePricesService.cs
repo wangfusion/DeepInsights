@@ -9,7 +9,7 @@ namespace DeepInsights.Services
 {
     [Export(typeof(IForexLivePricesService))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ForexLivePricesService : IForexLivePricesService
+    public class ForexLivePricesService : ForexServicesBase, IForexLivePricesService
     {
         public async Task<string> GetLiveForexPricesJson(IEnumerable<string> quoteNames)
         {
@@ -17,10 +17,11 @@ namespace DeepInsights.Services
 
             using (var webClient = new WebClient())
             {
-                webClient.Headers.Add("Authorization", "Bearer " + ApplicationConstants.FX_TOKEN);
+                SetAuthorizationHeader(webClient);
                 webClient.QueryString.Add("instruments", instrumentsQuotes);
 
-                return await webClient.DownloadStringTaskAsync(new Uri(ApplicationConstants.FX_URL + ApplicationConstants.FX_PRICING_ENDPOINT));
+                Uri endPoint = new Uri(ApplicationConstants.FX_URL + ApplicationConstants.FX_PRICING_ENDPOINT);
+                return await webClient.DownloadStringTaskAsync(endPoint);
             }
         }
     }
