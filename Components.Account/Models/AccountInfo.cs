@@ -18,13 +18,13 @@ namespace DeepInsights.Components.Account.Models
         public decimal Balance { get; set; }
 
         [JsonProperty(PropertyName = "openTradeCount")]
-        public int OpenTradeCount { get; set; }
+        public int OpenTrade { get; set; }
 
         [JsonProperty(PropertyName = "openPositionCount")]
-        public int OpenPositionCount { get; set; }
+        public int OpenPosition { get; set; }
 
         [JsonProperty(PropertyName = "pendingOrderCount")]
-        public int PendingOrderCount { get; set; }
+        public int PendingOrder { get; set; }
 
         [JsonProperty(PropertyName = "pl")]
         public decimal ProfitAndLoss { get; set; }
@@ -80,10 +80,10 @@ namespace DeepInsights.Components.Account.Models
         [JsonProperty(PropertyName = "withdrawalLimit")]
         public decimal WithdrawalLimit { get; set; }
 
-        [JsonProperty(PropertyName = "marginCallMarginUsed")]
-        public decimal MarginCallMarginUsed { get; set; }
+        //[JsonProperty(PropertyName = "marginCallMarginUsed")]
+        //public decimal MarginCallMarginUsed { get; set; }
 
-        [JsonProperty(PropertyName = "marginCallPercent")]
-        public decimal MarginCallPercent { get; set; }
+        //[JsonProperty(PropertyName = "marginCallPercent")]
+        //public decimal MarginCallPercent { get; set; }
     }
 }

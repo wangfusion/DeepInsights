@@ -7,8 +7,9 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:DeepInsights.Components.WatchList.Views"
-             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonconstants="clr-namespace:DeepInsights.Shell.Infrastructure.Constants;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -16,36 +17,55 @@
                 <commonutils:SharedResourceDictionary Source="/DeepInsights.Shell.Infrastructure;component/CommonResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate x:Key="SymbolColumnTemplate">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Spread: " Style="{StaticResource MiniLabelStyle}" />
-                        <TextBlock Text="{Binding RowData.Row.Spread, StringFormat=N5}" Style="{StaticResource MiniLabelStyle}" />
-                    </StackPanel>
-                    <TextBlock Text="{Binding RowData.Row.QuoteName}" Style="{StaticResource QuoteNameStyle}" />
-                </StackPanel>
-            </DataTemplate>
-
-            <DataTemplate x:Key="BidColumnTemplate">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="0,0,0,8" />
-                    <TextBlock Text="{Binding RowData.Row.Bid}" Style="{StaticResource BidAskStyle}" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Low: " Style="{StaticResource MiniLabelStyle}" />
-                        <TextBlock Text="{Binding RowData.Row.LowestBid}" Style="{StaticResource MiniLabelStyle}" />
-                    </StackPanel>
-                </StackPanel>
-            </DataTemplate>
-
-            <DataTemplate x:Key="AskColumnTemplate">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Margin="0,0,0,8" />
-                    <TextBlock Text="{Binding RowData.Row.Ask}" Style="{StaticResource BidAskStyle}" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="High: " Style="{StaticResource MiniLabelStyle}" />
-                        <TextBlock Text="{Binding RowData.Row.HighestAsk}" Style="{StaticResource MiniLabelStyle}" />
-                    </StackPanel>
-                </StackPanel>
+            <Style x:Key="QuoteNameStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="Background" Value="#FF5485ED" />
+                <Setter Property="Padding" Value="5,1,0,1" />
+            </Style>
+            
+            <DataTemplate x:Key="WatchListItemTemplate">
+                <Grid Margin="0,0,0,2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding RowData.Row.QuoteName}" Style="{StaticResource QuoteNameStyle}" />
+                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="#FF5485ED" BorderThickness="1">
+                        <StackPanel Orientation="Vertical" Background="Black">
+                            <TextBlock Padding="15,2,0,0" Text="Sell" FontSize="10" Foreground="#FF5485ED" FontWeight="SemiBold" />
+                            <TextBlock Padding="15,1,0,0" Text="{Binding RowData.Row.BidFirstPart}" FontSize="13" FontWeight="SemiBold" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Padding="15,1,0,0" Text="{Binding RowData.Row.BidSecondPart}" FontSize="25" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding RowData.Row.FractionalBidPip}" Style="{StaticResource MiniLabelStyle}" VerticalAlignment="Top" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="1" BorderBrush="#FF5485ED" BorderThickness="1" Background="Black">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <TextBlock Padding="5,2,0,0" Text="Buy" FontSize="10" Foreground="#FF5485ED" FontWeight="SemiBold" />
+                            <TextBlock Padding="5,1,0,0" Text="{Binding RowData.Row.AskFirstPart}" FontSize="13" FontWeight="SemiBold" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Padding="5,1,0,0" Text="{Binding RowData.Row.AskSecondPart}" FontSize="25" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding RowData.Row.FractionalAskPip}" Style="{StaticResource MiniLabelStyle}" VerticalAlignment="Top" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Border BorderBrush="#FF5485ED" Background="Black" BorderThickness="1" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                            <TextBlock Padding="2" FontWeight="Bold" Text="{Binding RowData.Row.Spread}" Style="{StaticResource MiniLabelStyle}" />
+                        </Border>
+                    </Grid>
+                    <Border Grid.Row="1" Grid.Column="3" BorderBrush="#FF5485ED" BorderThickness="1" Background="Black">
+                        <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20"
+                               Source="{Binding Source={x:Static commonconstants:ImageConstants.ArrowUp}}" />
+                    </Border>
+                </Grid>
             </DataTemplate>
 
             <Style x:Key="PriceHeaderStyle" TargetType="Control">
@@ -54,6 +74,17 @@
                 <Setter Property="FontSize" Value="11" />
             </Style>
 
+            <Style x:Key="SelectedRowStyle" TargetType="{x:Type dxg:RowControl}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                        <Setter Property="Foreground" Value="White" />
+                    </DataTrigger>
+                    <Trigger Property="dxg:GridViewBase.IsFocusedRow" Value="True">
+                        <Setter Property="Foreground" Value="White" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
@@ -76,18 +107,13 @@
                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Instruments}"
                          Visibility="{Binding HasQuotesLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <dxg:GridControl.Columns>
-                <dxg:GridColumn Header="Symbol" FieldName="Symbol" CellTemplate="{StaticResource SymbolColumnTemplate}" 
-                                HeaderStyle="{StaticResource PriceHeaderStyle}" HorizontalHeaderContentAlignment="Center" />
-                <dxg:GridColumn Header="Bid" FieldName="Bid" CellTemplate="{StaticResource BidColumnTemplate}" 
-                                HeaderStyle="{StaticResource PriceHeaderStyle}" HorizontalHeaderContentAlignment="Center" />
-                <dxg:GridColumn Header="Ask" FieldName="Ask" CellTemplate="{StaticResource AskColumnTemplate}" 
-                                HeaderStyle="{StaticResource PriceHeaderStyle}" HorizontalHeaderContentAlignment="Center" />
+                <dxg:GridColumn CellTemplate="{StaticResource WatchListItemTemplate}" />
             </dxg:GridControl.Columns>
             <dxg:GridControl.View>
                 <dxg:TableView AllowCascadeUpdate="True" AllowColumnFiltering="False" AllowGrouping="False" AllowSorting="False" 
-                               AutoWidth="True" NavigationStyle="Row" HorizontalScrollbarVisibility="Auto" ShowDataNavigator="False" 
-                               ShowIndicator="False" ShowGroupPanel="False" ShowVerticalLines="False" 
-                               UseEvenRowBackground="True" VerticalScrollbarVisibility="Auto" />
+                               AutoWidth="True" NavigationStyle="Row" HorizontalScrollbarVisibility="Auto" RowStyle="{StaticResource SelectedRowStyle}"
+                               ShowDataNavigator="False" ShowIndicator="False" ShowGroupPanel="False" ShowVerticalLines="False" 
+                               ShowColumnHeaders="False" UseEvenRowBackground="True" VerticalScrollbarVisibility="Auto"  />
             </dxg:GridControl.View>
         </dxg:GridControl> 
         <!--<Button Command="{Binding Path=RefreshPricesCommand, Mode=OneWay}" />-->

@@ -6,13 +6,16 @@
 
         public string QuoteName { get; set; }
 
-        public decimal Bid { get; set; }
+        public string BidFirstPart { get; set; }
 
-        public decimal Ask { get; set; }
+        public string BidSecondPart { get; set; }
 
-        public decimal LowestBid { get; set; }
+        public string FractionalBidPip { get; set; }
 
-        public decimal HighestAsk { get; set; }
+        public string AskFirstPart { get; set; }
 
+        public string AskSecondPart { get; set; }
+
+        public string FractionalAskPip { get; set; }
     }
 }

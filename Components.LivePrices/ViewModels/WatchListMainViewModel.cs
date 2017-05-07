@@ -94,9 +94,9 @@ namespace DeepInsights.Components.WatchList.ViewModels
         {
             var quoteNames = new List<string>
             {
-                CurrencyConstants.AUD_CAD, CurrencyConstants.AUD_CHF, CurrencyConstants.AUD_JPY, CurrencyConstants.AUD_NZD, CurrencyConstants.AUD_USD,
-                CurrencyConstants.CAD_CHF, CurrencyConstants.CAD_JPY, CurrencyConstants.CHF_JPY, CurrencyConstants.EUR_AUD, CurrencyConstants.EUR_CAD,
-                CurrencyConstants.EUR_CHF, CurrencyConstants.EUR_GBP, CurrencyConstants.EUR_JPY, CurrencyConstants.EUR_NZD
+                CurrencyConstants.AUD_CAD, CurrencyConstants.AUD_CHF, CurrencyConstants.AUD_NZD, CurrencyConstants.AUD_USD,
+                CurrencyConstants.CAD_CHF, CurrencyConstants.EUR_AUD, CurrencyConstants.EUR_CAD,
+                CurrencyConstants.EUR_CHF, CurrencyConstants.EUR_GBP, CurrencyConstants.EUR_NZD
             };
             string forexPricesJson = await _ForexWatchListService.GetLiveForexPricesJson(quoteNames);
             dynamic pricesResult = JsonConvert.DeserializeObject(forexPricesJson);
@@ -105,13 +105,23 @@ namespace DeepInsights.Components.WatchList.ViewModels
             foreach (dynamic price in pricesResult.prices)
             {
                 string quoteName = price.instrument;
-                decimal bid = price.bids[0].price;
-                decimal ask = price.asks[0].price;
-                decimal spread = ask - bid;
-                decimal lowestBid = bid;
-                decimal highestAsk = ask;
+                string bid = price.bids[0].price;
+                string bidFirstPart = bid.Substring(0, 4);
+                string bidSecondPart = bid.Substring(4, 2);
+                string fractionalBidPip = bid.Substring(6, 1);
+                string ask = price.asks[0].price;
+                string askFirstPart = ask.Substring(0, 4);
+                string askSecondPart = ask.Substring(4, 2);
+                string fractionalAskPip = ask.Substring(6, 1);
+                decimal bidPips = Convert.ToDecimal(bid.Substring(4, 3)) / 10;
+                decimal askPips = Convert.ToDecimal(ask.Substring(4, 3)) / 10;
+                decimal spread = askPips - bidPips;
 
-                forexInstruments.Add(new ForexInstrument { QuoteName = quoteName, Spread = spread, Bid = bid, Ask = ask, LowestBid = lowestBid, HighestAsk = highestAsk });
+                forexInstruments.Add(new ForexInstrument
+                {
+                    QuoteName = quoteName, Spread = spread, BidFirstPart = bidFirstPart, BidSecondPart = bidSecondPart, FractionalBidPip = fractionalBidPip
+                    ,AskFirstPart = askFirstPart, AskSecondPart = askSecondPart, FractionalAskPip = fractionalAskPip
+                });
             }
 
             Instruments.ClearAndAddRange(forexInstruments);
