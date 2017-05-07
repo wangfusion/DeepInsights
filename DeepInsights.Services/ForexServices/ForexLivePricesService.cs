@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DeepInsights.Services
 {
-    [Export(typeof(IForexLivePricesService))]
+    [Export(typeof(IForexWatchListService))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ForexLivePricesService : ForexServicesBase, IForexLivePricesService
+    public class ForexWatchListService : ForexServicesBase, IForexWatchListService
     {
         public async Task<string> GetLiveForexPricesJson(IEnumerable<string> quoteNames)
         {

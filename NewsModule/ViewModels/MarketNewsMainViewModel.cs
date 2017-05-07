@@ -44,6 +44,11 @@ namespace DeepInsights.Components.MarketNews.ViewModels
 
         #region Properties
 
+        public string ModuleHeader
+        {
+            get { return "Market News"; }
+        }
+
         public RangeObservableCollection<News> DailyNews
         {
             get;

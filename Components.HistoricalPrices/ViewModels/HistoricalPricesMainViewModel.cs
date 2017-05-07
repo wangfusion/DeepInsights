@@ -53,6 +53,30 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
 
         #region Properties
 
+        public string ModuleHeader
+        {
+            get { return "Chart"; }
+        }
+
+        public bool HasPricesLoaded
+        {
+            get { return _HasPricesLoaded; }
+            set
+            {
+                if (_HasPricesLoaded != value)
+                {
+                    SetProperty(ref _HasPricesLoaded, value);
+                    OnPropertyChanged(() => HasPricesLoaded);
+                }
+            }
+        }
+
+        public RangeObservableCollection<Candle> Candles
+        {
+            get;
+            set;
+        }
+
         public string YAxisLabel
         {
             get { return _YAxisLabel; }
@@ -79,19 +103,6 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
             }
         }
 
-        public bool HasPricesLoaded
-        {
-            get { return _HasPricesLoaded; }
-            set
-            {
-                if (_HasPricesLoaded != value)
-                {
-                    SetProperty(ref _HasPricesLoaded, value);
-                    OnPropertyChanged(() => HasPricesLoaded);
-                }
-            }
-        }
-
         public string InstrumentName
         {
             get { return _InstrumentName; }
@@ -103,12 +114,6 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
                     OnPropertyChanged(() => InstrumentName);
                 }
             }
-        }
-
-        public RangeObservableCollection<Candle> Candles
-        {
-            get;
-            set;
         }
 
         #endregion

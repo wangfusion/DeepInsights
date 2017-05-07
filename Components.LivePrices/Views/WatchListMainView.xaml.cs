@@ -1,15 +1,15 @@
-﻿using DeepInsights.Components.LivePrices.ViewModels;
+﻿using DeepInsights.Components.WatchList.ViewModels;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 
-namespace DeepInsights.Components.LivePrices.Views
+namespace DeepInsights.Components.WatchList.Views
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public partial class LivePricesMainView : UserControl
+    public partial class WatchListMainView : UserControl
     {
         [ImportingConstructor]
-        public LivePricesMainView(LivePricesMainViewModel viewModel)
+        public WatchListMainView(WatchListMainViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;

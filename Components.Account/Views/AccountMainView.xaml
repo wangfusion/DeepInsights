@@ -30,23 +30,33 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <dx:WaitIndicator Content="Loading Account Info..." DeferedVisibility="{Binding HasAccountInfoLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <dxg:GridControl ItemsSource="{Binding AccountKeyValuePairs}" Visibility="{Binding HasAccountInfoLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
+        <dx:WaitIndicator Grid.Row="1" Content="Loading Account Info..." DeferedVisibility="{Binding HasAccountInfoLoaded, Converter={StaticResource InverseBooleanConverter}}" />
+        <dxg:GridControl Grid.Row="1" ItemsSource="{Binding AccountKeyValuePairs}" 
+                         Visibility="{Binding HasAccountInfoLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="Key" Width="1.5*">
                     <dxg:GridColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding RowData.Row.Key, StringFormat={}{0}: }" FontWeight="Bold"
-                                       HorizontalAlignment="Right" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding RowData.Row.Key}" FontWeight="Bold" Margin="2,0,0,0"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </DataTemplate>
                     </dxg:GridColumn.CellTemplate>
                 </dxg:GridColumn>
-                <dxg:GridColumn FieldName="Value" Width="1*" />
+                <dxg:GridColumn FieldName="Value" Width="1*">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Right" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
             </dxg:GridControl.Columns>
             <dxg:GridControl.View>
                 <dxg:TableView AllowColumnFiltering="False" AllowColumnMoving="False" AllowGrouping="False" AutoWidth="True" 
-                               ShowColumnHeaders="False"  ShowDataNavigator="False" ShowIndicator="False" ShowGroupPanel="False"
-                               ShowVerticalLines="False" />
+                               ShowColumnHeaders="False" ShowDataNavigator="False" ShowIndicator="False" ShowGroupPanel="False"
+                               NavigationStyle="None" UseEvenRowBackground="True" />
             </dxg:GridControl.View>
         </dxg:GridControl>
     </Grid>

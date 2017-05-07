@@ -44,14 +44,19 @@
     </i:Interaction.Triggers>
     
     <Grid>
-        <dx:WaitIndicator Content="Loading News..." DeferedVisibility="{Binding HasNewsLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <ListBox ItemsSource="{Binding DailyNews}" Visibility="{Binding HasNewsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
+        <dx:WaitIndicator Grid.Row="1" Content="Loading News..." DeferedVisibility="{Binding HasNewsLoaded, Converter={StaticResource InverseBooleanConverter}}" />
+        <ListBox Grid.Row="1" ItemsSource="{Binding DailyNews}" Visibility="{Binding HasNewsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
                  ItemTemplate="{StaticResource NewsTemplate}" />
-        <StackPanel>
+        <!--<StackPanel>
             <TextBox Text="{Binding Path=Mobile, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource ErrorStyle}" Visibility="Collapsed" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding Errors}"
-                      TextBlock.Foreground="Red" />
+                      TextBlock.Foreground="Red" />-->
     </Grid>
 </UserControl>

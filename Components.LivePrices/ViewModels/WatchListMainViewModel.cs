@@ -1,4 +1,4 @@
-﻿using DeepInsights.Components.LivePrices.Models;
+﻿using DeepInsights.Components.WatchList.Models;
 using DeepInsights.Services;
 using DeepInsights.Shell.Infrastructure;
 using DeepInsights.Shell.Infrastructure.Utility;
@@ -10,37 +10,42 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 
-namespace DeepInsights.Components.LivePrices.ViewModels
+namespace DeepInsights.Components.WatchList.ViewModels
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class LivePricesMainViewModel : BindableBase
+    public class WatchListMainViewModel : BindableBase
     {
         #region Private Fields
 
         private bool _HasQuotesLoaded;
-        private readonly IForexLivePricesService _ForexLivePricesService;
+        private readonly IForexWatchListService _ForexWatchListService;
 
         #endregion
 
         #region Constructor
 
         [ImportingConstructor]
-        public LivePricesMainViewModel(IForexLivePricesService forexLivePricesService)
+        public WatchListMainViewModel(IForexWatchListService forexWatchListService)
         {
             InitializeCommands();
             Instruments = new RangeObservableCollection<Instrument>();
 
-            if (forexLivePricesService == null)
+            if (forexWatchListService == null)
             {
-                throw new ArgumentNullException("forexLivePricesService");
+                throw new ArgumentNullException("forexWatchListService");
             }
-            _ForexLivePricesService = forexLivePricesService;
+            _ForexWatchListService = forexWatchListService;
         }
 
         #endregion
 
         #region Properties
+
+        public string ModuleHeader
+        {
+            get { return "Market Prices"; }
+        }
 
         public RangeObservableCollection<Instrument> Instruments
         {
@@ -82,10 +87,10 @@ namespace DeepInsights.Components.LivePrices.ViewModels
 
         private async void ViewLoaded()
         {
-            await FetchLivePrices();
+            await FetchWatchList();
         }
 
-        private async Task FetchLivePrices()
+        private async Task FetchWatchList()
         {
             var quoteNames = new List<string>
             {
@@ -93,7 +98,7 @@ namespace DeepInsights.Components.LivePrices.ViewModels
                 CurrencyConstants.CAD_CHF, CurrencyConstants.CAD_JPY, CurrencyConstants.CHF_JPY, CurrencyConstants.EUR_AUD, CurrencyConstants.EUR_CAD,
                 CurrencyConstants.EUR_CHF, CurrencyConstants.EUR_GBP, CurrencyConstants.EUR_JPY, CurrencyConstants.EUR_NZD
             };
-            string forexPricesJson = await _ForexLivePricesService.GetLiveForexPricesJson(quoteNames);
+            string forexPricesJson = await _ForexWatchListService.GetLiveForexPricesJson(quoteNames);
             dynamic pricesResult = JsonConvert.DeserializeObject(forexPricesJson);
 
             var forexInstruments = new List<Instrument>();

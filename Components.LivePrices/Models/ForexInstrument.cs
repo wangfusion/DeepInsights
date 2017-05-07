@@ -1,4 +1,4 @@
-﻿namespace DeepInsights.Components.LivePrices.Models
+﻿namespace DeepInsights.Components.WatchList.Models
 {
     public class ForexInstrument : Instrument
     {

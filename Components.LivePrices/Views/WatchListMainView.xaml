@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DeepInsights.Components.LivePrices.Views.LivePricesMainView"
+﻿<UserControl x:Class="DeepInsights.Components.WatchList.Views.WatchListMainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:local="clr-namespace:DeepInsights.Components.LivePrices.Views"
+             xmlns:local="clr-namespace:DeepInsights.Components.WatchList.Views"
              xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d">
@@ -48,6 +48,12 @@
                 </StackPanel>
             </DataTemplate>
 
+            <Style x:Key="PriceHeaderStyle" TargetType="Control">
+                <Setter Property="Background" Value="DarkSlateGray"/>
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FontSize" Value="11" />
+            </Style>
+
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
             <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
@@ -59,22 +65,31 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <DockPanel LastChildFill="True">
-        <dx:WaitIndicator Content="Loading Quotes..." DeferedVisibility="{Binding HasQuotesLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <dxg:GridControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
+        <dx:WaitIndicator Grid.Row="1" Content="Loading Quotes..." DeferedVisibility="{Binding HasQuotesLoaded, Converter={StaticResource InverseBooleanConverter}}" />
+        <dxg:GridControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Instruments}"
                          Visibility="{Binding HasQuotesLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <dxg:GridControl.Columns>
-                <dxg:GridColumn Header="Symbol" FieldName="Symbol" CellTemplate="{StaticResource SymbolColumnTemplate}" />
-                <dxg:GridColumn Header="Bid" FieldName="Bid" CellTemplate="{StaticResource BidColumnTemplate}" />
-                <dxg:GridColumn Header="Ask" FieldName="Ask" CellTemplate="{StaticResource AskColumnTemplate}" />
+                <dxg:GridColumn Header="Symbol" FieldName="Symbol" CellTemplate="{StaticResource SymbolColumnTemplate}" 
+                                HeaderStyle="{StaticResource PriceHeaderStyle}" HorizontalHeaderContentAlignment="Center" />
+                <dxg:GridColumn Header="Bid" FieldName="Bid" CellTemplate="{StaticResource BidColumnTemplate}" 
+                                HeaderStyle="{StaticResource PriceHeaderStyle}" HorizontalHeaderContentAlignment="Center" />
+                <dxg:GridColumn Header="Ask" FieldName="Ask" CellTemplate="{StaticResource AskColumnTemplate}" 
+                                HeaderStyle="{StaticResource PriceHeaderStyle}" HorizontalHeaderContentAlignment="Center" />
             </dxg:GridControl.Columns>
             <dxg:GridControl.View>
                 <dxg:TableView AllowCascadeUpdate="True" AllowColumnFiltering="False" AllowGrouping="False" AllowSorting="False" 
-                               AutoWidth="True" NavigationStyle="Row" HorizontalScrollbarVisibility="Auto" ShowDataNavigator="False" ShowIndicator="False"
-                               ShowGroupPanel="False" ShowVerticalLines="False" VerticalScrollbarVisibility="Auto" />
+                               AutoWidth="True" NavigationStyle="Row" HorizontalScrollbarVisibility="Auto" ShowDataNavigator="False" 
+                               ShowIndicator="False" ShowGroupPanel="False" ShowVerticalLines="False" 
+                               UseEvenRowBackground="True" VerticalScrollbarVisibility="Auto" />
             </dxg:GridControl.View>
         </dxg:GridControl> 
         <!--<Button Command="{Binding Path=RefreshPricesCommand, Mode=OneWay}" />-->
-    </DockPanel>
+    </Grid>
 </UserControl>

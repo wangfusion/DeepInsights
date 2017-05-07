@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepInsights.Shell.Infrastructure", "DeepInsights.Shell.Infrastructure\DeepInsights.Shell.Infrastructure.csproj", "{D6D2EE87-6D4D-4F73-AAF6-04A02A8D0A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.LivePrices", "Components.LivePrices\Components.LivePrices.csproj", "{63E295B8-35BB-4B32-9D98-2368BE9B6068}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.WatchList", "Components.LivePrices\Components.WatchList.csproj", "{63E295B8-35BB-4B32-9D98-2368BE9B6068}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepInsights.Services", "DeepInsights.Services\DeepInsights.Services.csproj", "{D69E1F48-DBE3-4A41-95C5-10286E9C1ABB}"
 EndProject

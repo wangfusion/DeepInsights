@@ -62,6 +62,11 @@ namespace DeepInsights.Components.Account.ViewModels
             }
         }
 
+        public string ModuleHeader
+        {
+            get { return "Account Info"; }
+        }
+
         #endregion
 
         #region Commands

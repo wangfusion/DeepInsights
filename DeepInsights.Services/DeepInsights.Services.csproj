@@ -48,7 +48,7 @@
     <Compile Include="ForexServices\ForexServicesBase.cs" />
     <Compile Include="ForexServices\IForexAccountService.cs" />
     <Compile Include="ForexServices\IForexHistoricalPricesService.cs" />
-    <Compile Include="ForexServices\IForexLivePricesService.cs" />
+    <Compile Include="ForexServices\IForexWatchListService.cs" />
     <Compile Include="NewsServices\INewsFeedService.cs" />
     <Compile Include="NewsServices\NewsFeedService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,5 +3,7 @@
                           xmlns:sys="clr-namespace:System;assembly=mscorlib" 
                           xmlns:Modularity="clr-namespace:Microsoft.Practices.Prism.Modularity;assembly=Microsoft.Practices.Prism.Composition">
     <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.MarketNews.dll" ModuleName="MarketNewsModule" ModuleType="DeepInsights.Components.MarketNewsModule, DeepInsights.Components.MarketNews" />
-    <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.LivePrices.dll" ModuleName="LivePricesModule" ModuleType="DeepInsights.Components.LivePricesModule, DeepInsights.Components.LivePrices" />
+    <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.WatchList.dll" ModuleName="WatchListModule" ModuleType="DeepInsights.Components.WatchListModule, DeepInsights.Components.WatchList" />
+    <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.HistoricalPrices.dll" ModuleName="HistoricalPricesModule" ModuleType="DeepInsights.Components.HistoricalPricesModule, DeepInsights.Components.HistoricalPrices" />
+    <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.Account.dll" ModuleName="AccountModule" ModuleType="DeepInsights.Components.AccountModule, DeepInsights.Components.Account" />
 </Modularity:ModuleCatalog>

@@ -62,8 +62,13 @@
     </i:Interaction.Triggers>
     
     <Grid>
-        <dx:WaitIndicator Content="Loading Chart..." DeferedVisibility="{Binding HasPricesLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <dxc:ChartControl Name="chart" BorderThickness="0" AnimationMode="OnLoad" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
+        <dx:WaitIndicator Grid.Row="1" Content="Loading Chart..." DeferedVisibility="{Binding HasPricesLoaded, Converter={StaticResource InverseBooleanConverter}}" />
+        <dxc:ChartControl Grid.Row="1" Name="chart" BorderThickness="0" AnimationMode="OnLoad" 
                           ToolTipEnabled="True" CrosshairEnabled="False"
                           Visibility="{Binding HasPricesLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <dxc:ChartControl.ToolTipOptions>
@@ -81,16 +86,16 @@
                             <dxc:AxisY2D.WholeRange>
                                 <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="False" />
                             </dxc:AxisY2D.WholeRange>
-                            <dxc:AxisY2D.Title>
+                            <!--<dxc:AxisY2D.Title>
                                 <dxc:AxisTitle Content="{Binding YAxisLabel}" />
-                            </dxc:AxisY2D.Title>
+                            </dxc:AxisY2D.Title>-->
                         </dxc:AxisY2D>
                     </dxc:XYDiagram2D.AxisY>
                     <dxc:XYDiagram2D.AxisX>
                         <dxc:AxisX2D GridLinesMinorVisible="True">
-                            <dxc:AxisX2D.Title>
+                            <!--<dxc:AxisX2D.Title>
                                 <dxc:AxisTitle Content="{Binding XAxisLabel}" />
-                            </dxc:AxisX2D.Title>
+                            </dxc:AxisX2D.Title>-->
                         </dxc:AxisX2D>
                     </dxc:XYDiagram2D.AxisX>
                     <dxc:XYDiagram2D.Series>
