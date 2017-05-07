@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepInsights.Services", "De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.HistoricalPrices", "Components.HistoricalPrices\Components.HistoricalPrices.csproj", "{39527908-4507-429B-AB2B-30180399578E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.Account", "Components.Account\Components.Account.csproj", "{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{39527908-4507-429B-AB2B-30180399578E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39527908-4507-429B-AB2B-30180399578E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39527908-4507-429B-AB2B-30180399578E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,5 +61,6 @@ Global
 		{FCBDAA14-EBD8-4C60-B98A-2F20C12DF515} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
 		{63E295B8-35BB-4B32-9D98-2368BE9B6068} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
 		{39527908-4507-429B-AB2B-30180399578E} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
+		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
 	EndGlobalSection
 EndGlobal

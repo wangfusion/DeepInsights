@@ -1,4 +1,5 @@
-﻿using DeepInsights.Components.HistoricalPrices;
+﻿using DeepInsights.Components.Account;
+using DeepInsights.Components.HistoricalPrices;
 using DeepInsights.Components.LivePrices;
 using DeepInsights.Components.MarketNews;
 using DeepInsights.Services;
@@ -40,6 +41,7 @@ namespace DeepInsights.Shell
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(MarketNewsModule).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(LivePricesModule).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(HistoricalPricesModule).Assembly));
+            AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(AccountModule).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(IForexLivePricesService).Assembly));
         }
 

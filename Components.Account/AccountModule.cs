@@ -1,4 +1,4 @@
-﻿using DeepInsights.Components.LivePrices.Views;
+﻿using DeepInsights.Components.Account.Views;
 using DeepInsights.Shell.Infrastructure;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Modularity;
@@ -6,10 +6,10 @@ using Microsoft.Practices.Prism.Regions;
 using System;
 using System.ComponentModel.Composition;
 
-namespace DeepInsights.Components.LivePrices
+namespace DeepInsights.Components.Account
 {
-    [ModuleExport(typeof(LivePricesModule), InitializationMode=InitializationMode.WhenAvailable)]
-    public class LivePricesModule : IModule
+    [ModuleExport(typeof(AccountModule), InitializationMode=InitializationMode.WhenAvailable)]
+    public class AccountModule : IModule
     {
         #region Private Fields
 
@@ -20,7 +20,7 @@ namespace DeepInsights.Components.LivePrices
         #region Constructor
 
         [ImportingConstructor]
-        public LivePricesModule(IRegionManager regionManager)
+        public AccountModule(IRegionManager regionManager)
         {
             if (regionManager == null)
             {
@@ -36,7 +36,7 @@ namespace DeepInsights.Components.LivePrices
 
         public void Initialize()
         {
-            _RegionManager.RegisterViewWithRegion(RegionNames.LeftBottomRegion, typeof(LivePricesMainView));
+            _RegionManager.RegisterViewWithRegion(RegionNames.LeftTopRegion, typeof(AccountMainView));
         }
 
         #endregion

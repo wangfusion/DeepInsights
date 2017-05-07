@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="DeepInsights.Components.Account.Views.AccountMainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:DeepInsights.Components.Account.Views"
+             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <commonutils:SharedResourceDictionary Source="/DeepInsights.Shell.Infrastructure;component/CommonResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <dx:WaitIndicator Content="Loading Account Info..." DeferedVisibility="{Binding HasAccountInfoLoaded, Converter={StaticResource InverseBooleanConverter}}" />
+        <dxg:GridControl ItemsSource="{Binding AccountKeyValuePairs}" Visibility="{Binding HasAccountInfoLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Key" Width="1.5*">
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding RowData.Row.Key, StringFormat={}{0}: }" FontWeight="Bold"
+                                       HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn FieldName="Value" Width="1*" />
+            </dxg:GridControl.Columns>
+            <dxg:GridControl.View>
+                <dxg:TableView AllowColumnFiltering="False" AllowColumnMoving="False" AllowGrouping="False" AutoWidth="True" 
+                               ShowColumnHeaders="False"  ShowDataNavigator="False" ShowIndicator="False" ShowGroupPanel="False"
+                               ShowVerticalLines="False" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </Grid>
+</UserControl>
