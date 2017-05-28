@@ -1,15 +1,15 @@
-﻿using DeepInsights.Components.MarketNews.ViewModels;
+﻿using DeepInsights.Components.TopDashboard.ViewModels;
 using System.ComponentModel.Composition;
 using System.Windows.Controls;
 
-namespace DeepInsights.Components.MarketNews.Views
+namespace DeepInsights.Components.TopDashboard.Views
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public partial class MarketNewsMainView : UserControl
+    public partial class TopDashboardMainView : UserControl
     {
         [ImportingConstructor]
-        public MarketNewsMainView(MarketNewsMainViewModel viewModel)
+        public TopDashboardMainView(TopDashboardMainViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
@@ -17,7 +17,7 @@ namespace DeepInsights.Components.MarketNews.Views
 
         public string GetPanelCaption()
         {
-            return "Market News";
+            return "";
         }
     }
 }

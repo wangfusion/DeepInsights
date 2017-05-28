@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.HistoricalPrices
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.Account", "Components.Account\Components.Account.csproj", "{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.TopDashboard", "Components.TopDashboard\Components.TopDashboard.csproj", "{19C81DB4-0A48-41FC-8E5C-871BAF387D37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19C81DB4-0A48-41FC-8E5C-871BAF387D37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19C81DB4-0A48-41FC-8E5C-871BAF387D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19C81DB4-0A48-41FC-8E5C-871BAF387D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19C81DB4-0A48-41FC-8E5C-871BAF387D37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,5 +68,6 @@ Global
 		{63E295B8-35BB-4B32-9D98-2368BE9B6068} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
 		{39527908-4507-429B-AB2B-30180399578E} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
 		{D0C5E406-BB08-4BA4-938F-8B17FFE5BA42} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
+		{19C81DB4-0A48-41FC-8E5C-871BAF387D37} = {27FD336E-F386-4C3F-9B05-F2566399BADA}
 	EndGlobalSection
 EndGlobal

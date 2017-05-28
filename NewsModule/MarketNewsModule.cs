@@ -22,10 +22,7 @@ namespace DeepInsights.Components.MarketNews
         [ImportingConstructor]
         public MarketNewsModule(IRegionManager regionManager)
         {
-            if (regionManager == null)
-            {
-                throw new ArgumentNullException("regionManager");
-            }
+            if (regionManager == null) throw new ArgumentNullException("regionManager"); 
 
             _RegionManager = regionManager;
         }
@@ -36,7 +33,7 @@ namespace DeepInsights.Components.MarketNews
 
         public void Initialize()
         {
-            _RegionManager.RegisterViewWithRegion(RegionNames.RightMostRegion, typeof(MarketNewsMainView));
+            _RegionManager.RegisterViewWithRegion(RegionNames.RightBottomRegion, typeof(MarketNewsMainView));
         }
 
         #endregion

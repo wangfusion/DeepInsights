@@ -14,5 +14,10 @@ namespace DeepInsights.Components.WatchList.Views
             InitializeComponent();
             DataContext = viewModel;
         }
+
+        public string GetPanelCaption()
+        {
+            return "Watch List";
+        }
     }
 }

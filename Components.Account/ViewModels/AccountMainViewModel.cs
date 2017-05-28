@@ -1,6 +1,6 @@
 ﻿using DeepInsights.Components.Account.Models;
 using DeepInsights.Services.ForexServices;
-using DeepInsights.Shell.Infrastructure.Utility;
+using DeepInsights.Shell.Infrastructure.Utilities;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Newtonsoft.Json;
@@ -19,8 +19,8 @@ namespace DeepInsights.Components.Account.ViewModels
     {
         #region Private Fields
 
+        private ModuleStatus _ModuleStatus = new ModuleStatus();
         private readonly IForexAccountService _ForexAccountService;
-        private bool _HasAccountInfoLoaded;
 
         #endregion
 
@@ -29,10 +29,7 @@ namespace DeepInsights.Components.Account.ViewModels
         [ImportingConstructor]
         public AccountMainViewModel(IForexAccountService forexAccountService)
         {
-            if (forexAccountService == null)
-            {
-                throw new ArgumentNullException("forexAccountService");
-            }
+            if (forexAccountService == null) throw new ArgumentNullException("forexAccountService");
             _ForexAccountService = forexAccountService;
 
             InitializeCommands();
@@ -43,23 +40,23 @@ namespace DeepInsights.Components.Account.ViewModels
 
         #region Properties
 
+        public ModuleStatus ModuleStatus
+        {
+            get { return _ModuleStatus; }
+            set
+            {
+                if (_ModuleStatus != value)
+                {
+                    SetProperty(ref _ModuleStatus, value);
+                    OnPropertyChanged(() => ModuleStatus);
+                }
+            }
+        }
+
         public RangeObservableCollection<KeyValuePair<string, string>> AccountKeyValuePairs
         {
             get;
             set;
-        }
-
-        public bool HasAccountInfoLoaded
-        {
-            get { return _HasAccountInfoLoaded; }
-            set
-            {
-                if (_HasAccountInfoLoaded != value)
-                {
-                    SetProperty(ref _HasAccountInfoLoaded, value);
-                    OnPropertyChanged(() => HasAccountInfoLoaded);
-                }
-            }
         }
 
         public string ModuleHeader
@@ -98,19 +95,26 @@ namespace DeepInsights.Components.Account.ViewModels
 
         private async Task GetAccountData()
         {
-            var accountProperties = new List<KeyValuePair<string, string>>();
-            string accountJson = await _ForexAccountService.GetAccountData();
-            AccountInfo accountInfo = JsonConvert.DeserializeObject<Response>(accountJson).account;
-            PropertyInfo[] properties = accountInfo.GetType().GetProperties();
-            foreach (var p in properties)
+            try
             {
-                string key = Regex.Replace(p.Name, "([a-z])([A-Z])", "$1 $2");
-                string val = p.GetValue(accountInfo).ToString();
-                accountProperties.Add(new KeyValuePair<string, string>(key, val));
-            }
+                var accountProperties = new List<KeyValuePair<string, string>>();
+                string accountJson = await _ForexAccountService.GetAccountData();
+                AccountInfo accountInfo = JsonConvert.DeserializeObject<Response>(accountJson).account;
+                PropertyInfo[] properties = accountInfo.GetType().GetProperties();
+                foreach (var p in properties)
+                {
+                    string key = Regex.Replace(p.Name, "([a-z])([A-Z])", "$1 $2");
+                    string val = p.GetValue(accountInfo).ToString();
+                    accountProperties.Add(new KeyValuePair<string, string>(key, val));
+                }
 
-            AccountKeyValuePairs.ClearAndAddRange(accountProperties);
-            HasAccountInfoLoaded = true;
+                AccountKeyValuePairs.ClearAndAddRange(accountProperties);
+                ModuleStatus.IsLoaded = true;
+            }
+            catch (Exception)
+            {
+                ModuleStatus.HasErrors = true;
+            }
         }
 
         #endregion

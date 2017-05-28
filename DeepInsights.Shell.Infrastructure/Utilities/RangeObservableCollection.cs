@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace DeepInsights.Shell.Infrastructure.Utility
+namespace DeepInsights.Shell.Infrastructure.Utilities
 {
     public class RangeObservableCollection<T> : ObservableCollection<T>
     {
@@ -75,10 +75,7 @@ namespace DeepInsights.Shell.Infrastructure.Utility
 
         private void InternalAddRange(IEnumerable<T> list, bool clearFirst)
         {
-            if (list == null)
-            {
-                throw new ArgumentNullException("list");
-            }
+            if (list == null) throw new ArgumentNullException("list");
 
             _SuppressNotification = true;
 

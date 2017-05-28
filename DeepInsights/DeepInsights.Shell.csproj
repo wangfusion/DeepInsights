@@ -41,6 +41,8 @@
     <Reference Include="DevExpress.Printing.v16.2.Core, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Charts.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Core.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Docking.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.LayoutControl.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Printing.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Prism.Composition, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
@@ -157,6 +159,10 @@
     <ProjectReference Include="..\Components.LivePrices\Components.WatchList.csproj">
       <Project>{63e295b8-35bb-4b32-9d98-2368be9b6068}</Project>
       <Name>Components.WatchList</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components.TopDashboard\Components.TopDashboard.csproj">
+      <Project>{19c81db4-0a48-41fc-8e5c-871baf387d37}</Project>
+      <Name>Components.TopDashboard</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeepInsights.Services\DeepInsights.Services.csproj">
       <Project>{d69e1f48-dbe3-4a41-95c5-10286e9c1abb}</Project>

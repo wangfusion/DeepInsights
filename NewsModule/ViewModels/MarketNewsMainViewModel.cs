@@ -1,7 +1,7 @@
 ﻿using DeepInsights.Components.MarketNews.Models;
 using DeepInsights.Services;
 using DeepInsights.Shell.Infrastructure;
-using DeepInsights.Shell.Infrastructure.Utility;
+using DeepInsights.Shell.Infrastructure.Utilities;
 using Microsoft.Practices.Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -19,8 +19,8 @@ namespace DeepInsights.Components.MarketNews.ViewModels
         #region Private Fields
 
         private readonly INewsFeedService _NewsFeedService;
+        private ModuleStatus _ModuleStatus = new ModuleStatus();
         private List<string> _Errors;
-        private bool _HasNewsLoaded;
         private string _Mobile;
 
         #endregion
@@ -30,10 +30,8 @@ namespace DeepInsights.Components.MarketNews.ViewModels
         [ImportingConstructor]
         public MarketNewsMainViewModel(INewsFeedService newsFeedService)
         {
-            if (newsFeedService == null)
-            {
-                throw new ArgumentNullException("newsFeedService");
-            }
+            if (newsFeedService == null) throw new ArgumentNullException("newsFeedService"); 
+
             _NewsFeedService = newsFeedService;
             DailyNews = new RangeObservableCollection<News>();
 
@@ -55,15 +53,15 @@ namespace DeepInsights.Components.MarketNews.ViewModels
             set;
         }
 
-        public bool HasNewsLoaded
+        public ModuleStatus ModuleStatus
         {
-            get { return _HasNewsLoaded; }
+            get { return _ModuleStatus; }
             set
             {
-                if (_HasNewsLoaded != value)
+                if (_ModuleStatus != value)
                 {
-                    SetProperty(ref _HasNewsLoaded, value);
-                    OnPropertyChanged(() => HasNewsLoaded);
+                    SetProperty(ref _ModuleStatus, value);
+                    OnPropertyChanged(() => ModuleStatus);
                 }
             }
         }
@@ -130,19 +128,32 @@ namespace DeepInsights.Components.MarketNews.ViewModels
 
         private async Task GetNewsFeeds()
         {
-            var newsItems = new List<News>();
-            IEnumerable<SyndicationItem> items = await _NewsFeedService.GetNewsFeed(NewsConstants.REUTER_MONEY);
-
-            foreach (SyndicationItem item in items)
+            try
             {
-                string title = item.Title == null ? string.Empty : item.Title.Text;
-                string summary = item.Summary == null ? string.Empty : item.Summary.Text;
-                string content = item.Content == null ? string.Empty : item.Content.ToString();
-                newsItems.Add(new News(item.PublishDate.UtcDateTime.ToLocalTime(), title, summary, content));
-            }
+                var newsItems = new List<News>();
+                IEnumerable<SyndicationItem> items = await _NewsFeedService.GetNewsFeed(NewsConstants.REUTER_MONEY);
 
-            DailyNews.ClearAndAddRange(newsItems);
-            HasNewsLoaded = true;
+                if (items == null)
+                {
+                    ModuleStatus.HasErrors = true;
+                    return;
+                }
+
+                foreach (SyndicationItem item in items)
+                {
+                    string title = item.Title == null ? string.Empty : item.Title.Text;
+                    string summary = item.Summary == null ? string.Empty : item.Summary.Text;
+                    string content = item.Content == null ? string.Empty : item.Content.ToString();
+                    newsItems.Add(new News(item.PublishDate.UtcDateTime.ToLocalTime(), title, summary, content));
+                }
+
+                DailyNews.ClearAndAddRange(newsItems);
+                ModuleStatus.IsLoaded = true;
+            }
+            catch(Exception)
+            {
+                ModuleStatus.HasErrors = true;
+            }
         }
         #endregion
     }

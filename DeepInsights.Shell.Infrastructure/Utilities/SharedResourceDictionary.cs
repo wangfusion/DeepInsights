@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 
-namespace DeepInsights.Shell.Infrastructure.Utility
+namespace DeepInsights.Shell.Infrastructure.Utilities
 {
     public class SharedResourceDictionary : ResourceDictionary
     {

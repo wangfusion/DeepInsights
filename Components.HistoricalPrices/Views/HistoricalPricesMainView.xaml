@@ -7,7 +7,7 @@
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:DeepInsights.Components.HistoricalPrices.Views"
-             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utilities;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -16,7 +16,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <commonutils:SharedResourceDictionary Source="/DeepInsights.Shell.Infrastructure;component/CommonResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <DataTemplate x:Key="CandleTooltipTemplate">
                 <Grid UseLayoutRounding="True">
                     <Grid.RowDefinitions>
@@ -49,28 +49,26 @@
                     <TextBlock VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Margin="3,2,3,2" Text="{Binding Hint.Owner.Close}" TextAlignment="Right" FontWeight="Bold" Foreground="{Binding Hint.CloseFontBrush}"/>
                 </Grid>
             </DataTemplate>
-
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
-        <dx:WaitIndicator Grid.Row="1" Content="Loading Chart..." DeferedVisibility="{Binding HasPricesLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <dxc:ChartControl Grid.Row="1" Name="chart" BorderThickness="0" AnimationMode="OnLoad" 
+        <!--<ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />-->
+        <dx:WaitIndicator Content="Loading Chart...">
+            <dx:WaitIndicator.DeferedVisibility>
+                <MultiBinding Converter="{StaticResource BooleanAndConverter}">
+                    <Binding Path="ModuleStatus.IsLoaded" Converter="{StaticResource InverseBooleanConverter}" />
+                    <Binding Path="ModuleStatus.HasErrors" Converter="{StaticResource InverseBooleanConverter}" />
+                </MultiBinding>
+            </dx:WaitIndicator.DeferedVisibility>
+        </dx:WaitIndicator>
+
+        <TextBlock Margin="0,15,0,0" HorizontalAlignment="Center" Text="---" TextWrapping="Wrap" 
+                   Visibility="{Binding ModuleStatus.HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <dxc:ChartControl Name="chart" BorderThickness="0" AnimationMode="OnLoad" 
                           ToolTipEnabled="True" CrosshairEnabled="False"
-                          Visibility="{Binding HasPricesLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                          Visibility="{Binding ModuleStatus.IsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <dxc:ChartControl.ToolTipOptions>
                 <dxc:ToolTipOptions>
                     <dxc:ToolTipOptions.ToolTipPosition>

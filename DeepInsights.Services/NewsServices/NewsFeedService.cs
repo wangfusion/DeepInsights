@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
@@ -14,11 +15,18 @@ namespace DeepInsights.Services
         {
             return await Task.Factory.StartNew(() => 
             {
-                using (XmlReader reader = XmlReader.Create(newsFeedURL))
+                try
                 {
-                    SyndicationFeed feed = SyndicationFeed.Load(reader);
+                    using (XmlReader reader = XmlReader.Create(newsFeedURL))
+                    {
+                        SyndicationFeed feed = SyndicationFeed.Load(reader);
 
-                    return feed.Items;
+                        return feed.Items;
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
                 }
             });
         }

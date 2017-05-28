@@ -12,6 +12,7 @@ namespace DeepInsights.Shell
 
             var bootstrapper = new Bootstrapper();
             bootstrapper.Run();
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
     }
 }

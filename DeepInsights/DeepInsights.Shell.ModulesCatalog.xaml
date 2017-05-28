@@ -6,4 +6,5 @@
     <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.WatchList.dll" ModuleName="WatchListModule" ModuleType="DeepInsights.Components.WatchListModule, DeepInsights.Components.WatchList" />
     <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.HistoricalPrices.dll" ModuleName="HistoricalPricesModule" ModuleType="DeepInsights.Components.HistoricalPricesModule, DeepInsights.Components.HistoricalPrices" />
     <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.Account.dll" ModuleName="AccountModule" ModuleType="DeepInsights.Components.AccountModule, DeepInsights.Components.Account" />
+    <Modularity:ModuleInfo Ref="file:///DeepInsights.Components.TopDashboard.dll" ModuleName="TopDashboardModule" ModuleType="DeepInsights.Components.TopDashboardModule, DeepInsights.Components.TopDashboard" />
 </Modularity:ModuleCatalog>

@@ -22,10 +22,7 @@ namespace DeepInsights.Components.HistoricalPrices
         [ImportingConstructor]
         public HistoricalPricesModule(IRegionManager regionManager)
         {
-            if (regionManager == null)
-            {
-                throw new ArgumentNullException("regionManager");
-            }
+            if (regionManager == null) throw new ArgumentNullException("regionManager");
 
             _RegionManager = regionManager;
         }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utilities;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -17,11 +17,11 @@
 
             <DataTemplate x:Key="NewsTemplate">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="{Binding Title}" />
+                    <TextBlock Text="{Binding Title}" TextWrapping="Wrap" />
                     <TextBlock Text="{Binding PublishDate, StringFormat=dd-MMM-yyyy HH:mm}" Style="{StaticResource MiniLabelStyle}" />
                 </StackPanel>                
             </DataTemplate>
-            
+
             <Style x:Key="ErrorStyle" TargetType="FrameworkElement">
                 <Style.Triggers>
                     <Trigger Property="Validation.HasError" Value="True">
@@ -31,9 +31,6 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -42,16 +39,23 @@
             <i:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
-        <dx:WaitIndicator Grid.Row="1" Content="Loading News..." DeferedVisibility="{Binding HasNewsLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <ListBox Grid.Row="1" ItemsSource="{Binding DailyNews}" Visibility="{Binding HasNewsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
-                 ItemTemplate="{StaticResource NewsTemplate}" />
+        <!--<ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />-->
+        <dx:WaitIndicator Content="Loading News...">
+            <dx:WaitIndicator.DeferedVisibility>
+                <MultiBinding Converter="{StaticResource BooleanAndConverter}">
+                    <Binding Path="ModuleStatus.IsLoaded" Converter="{StaticResource InverseBooleanConverter}" />
+                    <Binding Path="ModuleStatus.HasErrors" Converter="{StaticResource InverseBooleanConverter}" />
+                </MultiBinding>
+            </dx:WaitIndicator.DeferedVisibility>
+        </dx:WaitIndicator>
+
+        <TextBlock Margin="0,15,0,0" HorizontalAlignment="Center" Text="Failed to load module... " TextWrapping="Wrap" 
+                   Visibility="{Binding ModuleStatus.HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <ListBox ItemsSource="{Binding DailyNews}" Visibility="{Binding ModuleStatus.IsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}"
+                 ItemTemplate="{StaticResource NewsTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
         <!--<StackPanel>
             <TextBox Text="{Binding Path=Mobile, Mode=TwoWay, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource ErrorStyle}" Visibility="Collapsed" />

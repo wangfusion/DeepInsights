@@ -22,10 +22,7 @@ namespace DeepInsights.Components.WatchList
         [ImportingConstructor]
         public WatchListModule(IRegionManager regionManager)
         {
-            if (regionManager == null)
-            {
-                throw new ArgumentNullException("regionManager");
-            }
+            if (regionManager == null) throw new ArgumentNullException("regionManager");
 
             _RegionManager = regionManager;
         }
@@ -36,7 +33,7 @@ namespace DeepInsights.Components.WatchList
 
         public void Initialize()
         {
-            _RegionManager.RegisterViewWithRegion(RegionNames.LeftBottomRegion, typeof(WatchListMainView));
+            _RegionManager.RegisterViewWithRegion(RegionNames.LeftRegion, typeof(WatchListMainView));
         }
 
         #endregion

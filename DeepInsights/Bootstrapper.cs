@@ -1,4 +1,5 @@
-﻿using DeepInsights.Components.Account;
+﻿using DevExpress.Xpf.Docking;
+using DeepInsights.Components.Account;
 using DeepInsights.Components.HistoricalPrices;
 using DeepInsights.Components.WatchList;
 using DeepInsights.Components.MarketNews;
@@ -10,6 +11,10 @@ using System;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows;
 using ModuleCatalogInstance = Microsoft.Practices.Prism.Modularity.ModuleCatalog;
+using Microsoft.Practices.Prism.Regions;
+using DeepInsights.Shell.Infrastructure.RegionAdapters;
+using DeepInsights.Shell.Infrastructure;
+using DeepInsights.Components.TopDashboard;
 
 namespace DeepInsights.Shell
 {
@@ -42,7 +47,19 @@ namespace DeepInsights.Shell
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(WatchListModule).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(HistoricalPricesModule).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(AccountModule).Assembly));
+            AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(TopDashboardModule).Assembly));
             AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(IForexWatchListService).Assembly));
+            AggregateCatalog.Catalogs.Add(new AssemblyCatalog(typeof(RegionNames).Assembly));
+        }
+
+        protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
+        {
+            RegionAdapterMappings mappings = base.ConfigureRegionAdapterMappings();
+            mappings.RegisterMapping(typeof(LayoutPanel), Container.GetExportedValue<LayoutPanelAdapter>());
+            mappings.RegisterMapping(typeof(LayoutGroup), Container.GetExportedValue<LayoutGroupAdapter>());
+            mappings.RegisterMapping(typeof(DocumentGroup), Container.GetExportedValue<DocumentGroupAdapter>());
+
+            return mappings;
         }
 
         #endregion

@@ -14,5 +14,10 @@ namespace DeepInsights.Components.HistoricalPrices.Views
             InitializeComponent();
             DataContext = viewModel;
         }
+
+        public string GetPanelCaption()
+        {
+            return "Chart";
+        }
     }
 }

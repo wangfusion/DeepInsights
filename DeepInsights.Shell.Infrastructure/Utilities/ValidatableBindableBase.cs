@@ -47,16 +47,10 @@ namespace DeepInsights.Shell.Infrastructure
 
         public bool ValidateProperty(string propertyName)
         {
-            if (string.IsNullOrEmpty(propertyName))
-            {
-                throw new ArgumentNullException("propertyName");
-            }
+            if (string.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("propertyName");
 
             var propertyInfo = GetType().GetRuntimeProperty(propertyName);
-            if (propertyInfo == null)
-            {
-                throw new ArgumentException("Invalid property name", propertyName);
-            }
+            if (propertyInfo == null) throw new ArgumentException("Invalid property name", propertyName);
 
             var propertyErrors = new List<string>();
             bool isValid = TryValidateProperty(propertyInfo, propertyErrors);

@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="DeepInsights.Components.TopDashboard.Views.TopDashboardMainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DeepInsights.Components.TopDashboard.Views"
+             xmlns:dxga="http://schemas.devexpress.com/winfx/2008/xaml/gauges"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Grid>
+        <!--<Grid.Background>
+            <RadialGradientBrush Center="0.5,0.142" GradientOrigin="0.5,0.142" RadiusY="0.853" RadiusX="0.853">
+                <GradientStop Color="#FF2D333E"/>
+                <GradientStop Color="#FF151720" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.80*" />
+            <RowDefinition Height="0.2*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <dxga:DigitalGaugeControl Text="{Binding LondonTime}" SymbolCount="8" FlowDirection="LeftToRight"
+                                  Grid.Row="0" Grid.Column="0" TextDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <dxga:DigitalGaugeControl.Layers>
+                <dxga:DigitalGaugeLayer />
+            </dxga:DigitalGaugeControl.Layers>
+            <dxga:DigitalGaugeControl.Model>
+                <dxga:DigitalProgressiveModel />
+            </dxga:DigitalGaugeControl.Model>
+            <dxga:DigitalGaugeControl.SymbolView>
+                <dxga:SevenSegmentsView>
+                    <dxga:SevenSegmentsView.Animation>
+                        <dxga:BlinkingAnimation RefreshTime="00:000:00.5" SymbolsStates="0 0 1 0 0 1 0 0" />
+                    </dxga:SevenSegmentsView.Animation>
+                </dxga:SevenSegmentsView>
+            </dxga:DigitalGaugeControl.SymbolView>
+        </dxga:DigitalGaugeControl>
+        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Text="London" FontWeight="SemiBold" />
+
+        <dxga:DigitalGaugeControl Text="{Binding NewYorkTime}" SymbolCount="8" FlowDirection="LeftToRight" 
+                                  Grid.Row="0" Grid.Column="1" TextDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <dxga:DigitalGaugeControl.Layers>
+                <dxga:DigitalGaugeLayer />
+            </dxga:DigitalGaugeControl.Layers>
+            <dxga:DigitalGaugeControl.Model>
+                <dxga:DigitalProgressiveModel />
+            </dxga:DigitalGaugeControl.Model>
+            <dxga:DigitalGaugeControl.SymbolView>
+                <dxga:SevenSegmentsView>
+                    <dxga:SevenSegmentsView.Animation>
+                        <dxga:BlinkingAnimation RefreshTime="00:000:00.5" SymbolsStates="0 0 1 0 0 1 0 0" />
+                    </dxga:SevenSegmentsView.Animation>
+                </dxga:SevenSegmentsView>
+            </dxga:DigitalGaugeControl.SymbolView>
+        </dxga:DigitalGaugeControl>
+        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Text="NewYork" FontWeight="SemiBold" />
+
+        <dxga:DigitalGaugeControl Text="{Binding TokyoTime}" SymbolCount="8" FlowDirection="LeftToRight"
+                                  Grid.Column="2" TextDirection="RightToLeft" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <dxga:DigitalGaugeControl.Layers>
+                <dxga:DigitalGaugeLayer />
+            </dxga:DigitalGaugeControl.Layers>
+            <dxga:DigitalGaugeControl.Model>
+                <dxga:DigitalProgressiveModel />
+            </dxga:DigitalGaugeControl.Model>
+            <dxga:DigitalGaugeControl.SymbolView>
+                <dxga:SevenSegmentsView>
+                    <dxga:SevenSegmentsView.Animation>
+                        <dxga:BlinkingAnimation RefreshTime="00:000:00.5" SymbolsStates="0 0 1 0 0 1 0 0" />
+                    </dxga:SevenSegmentsView.Animation>
+                </dxga:SevenSegmentsView>
+            </dxga:DigitalGaugeControl.SymbolView>
+        </dxga:DigitalGaugeControl>
+        <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Text="Tokyo" FontWeight="SemiBold" />
+    </Grid>
+</UserControl>

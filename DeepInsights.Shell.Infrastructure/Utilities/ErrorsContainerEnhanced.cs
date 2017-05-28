@@ -13,10 +13,7 @@ namespace DeepInsights.Shell.Infrastructure
 
         public ErrorsContainer(Action<string> raiseErrorsChanged)
         {
-            if (raiseErrorsChanged == null)
-            {
-                throw new ArgumentNullException("raiseErrorsChanged");
-            }
+            if (raiseErrorsChanged == null) throw new ArgumentNullException("raiseErrorsChanged");
 
             this.raiseErrorsChanged = raiseErrorsChanged;
             validationResults = new Dictionary<string, List<T>>();

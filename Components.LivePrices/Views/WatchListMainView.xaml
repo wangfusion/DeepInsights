@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:DeepInsights.Components.WatchList.Views"
              xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonconstants="clr-namespace:DeepInsights.Shell.Infrastructure.Constants;assembly=DeepInsights.Shell.Infrastructure"
-             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utilities;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -23,6 +23,10 @@
                 <Setter Property="Background" Value="#FF5485ED" />
                 <Setter Property="Padding" Value="5,1,0,1" />
             </Style>
+
+            <DataTemplate x:Key="WatchListHeaderTemplate">
+                
+            </DataTemplate>
             
             <DataTemplate x:Key="WatchListItemTemplate">
                 <Grid Margin="0,0,0,2">
@@ -84,9 +88,6 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -97,20 +98,30 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
-        <dx:WaitIndicator Grid.Row="1" Content="Loading Quotes..." DeferedVisibility="{Binding HasQuotesLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <dxg:GridControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+        <!--<ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />-->
+        <dx:WaitIndicator Content="Loading Quotes...">
+            <dx:WaitIndicator.DeferedVisibility>
+                <MultiBinding Converter="{StaticResource BooleanAndConverter}">
+                    <Binding Path="ModuleStatus.IsLoaded" Converter="{StaticResource InverseBooleanConverter}" />
+                    <Binding Path="ModuleStatus.HasErrors" Converter="{StaticResource InverseBooleanConverter}" />
+                </MultiBinding>
+            </dx:WaitIndicator.DeferedVisibility>
+        </dx:WaitIndicator>
+        
+        <TextBlock Margin="0,15,0,0" HorizontalAlignment="Center" Text="Failed to load module... " TextWrapping="Wrap" 
+                   Visibility="{Binding ModuleStatus.HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        
+        
+        
+        <dxg:GridControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedInstrument}"
                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Instruments}"
-                         Visibility="{Binding HasQuotesLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                         Visibility="{Binding ModuleStatus.IsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <dxg:GridControl.Columns>
                 <dxg:GridColumn CellTemplate="{StaticResource WatchListItemTemplate}" />
             </dxg:GridControl.Columns>
             <dxg:GridControl.View>
                 <dxg:TableView AllowCascadeUpdate="True" AllowColumnFiltering="False" AllowGrouping="False" AllowSorting="False" 
+                               HeaderTemplate="{StaticResource WatchListHeaderTemplate}"
                                AutoWidth="True" NavigationStyle="Row" HorizontalScrollbarVisibility="Auto" RowStyle="{StaticResource SelectedRowStyle}"
                                ShowDataNavigator="False" ShowIndicator="False" ShowGroupPanel="False" ShowVerticalLines="False" 
                                ShowColumnHeaders="False" UseEvenRowBackground="True" VerticalScrollbarVisibility="Auto"  />

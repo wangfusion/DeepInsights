@@ -8,7 +8,7 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:DeepInsights.Components.Account.Views"
-             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utility;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utilities;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -17,9 +17,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <commonutils:SharedResourceDictionary Source="/DeepInsights.Shell.Infrastructure;component/CommonResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <commonconverters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -30,14 +27,21 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />
-        <dx:WaitIndicator Grid.Row="1" Content="Loading Account Info..." DeferedVisibility="{Binding HasAccountInfoLoaded, Converter={StaticResource InverseBooleanConverter}}" />
-        <dxg:GridControl Grid.Row="1" ItemsSource="{Binding AccountKeyValuePairs}" 
-                         Visibility="{Binding HasAccountInfoLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <!--<ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource ModuleHeaderTemplate}" />-->
+        <dx:WaitIndicator Content="Loading Account Info...">
+            <dx:WaitIndicator.DeferedVisibility>
+                <MultiBinding Converter="{StaticResource BooleanAndConverter}">
+                    <Binding Path="ModuleStatus.IsLoaded" Converter="{StaticResource InverseBooleanConverter}" />
+                    <Binding Path="ModuleStatus.HasErrors" Converter="{StaticResource InverseBooleanConverter}" />
+                </MultiBinding>
+            </dx:WaitIndicator.DeferedVisibility>
+        </dx:WaitIndicator>
+
+        <TextBlock Margin="0,15,0,0" HorizontalAlignment="Center" Text="Failed to load module... " TextWrapping="Wrap" 
+                   Visibility="{Binding ModuleStatus.HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        
+        <dxg:GridControl ItemsSource="{Binding AccountKeyValuePairs}" 
+                         Visibility="{Binding ModuleStatus.IsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
             <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="Key" Width="1.5*">
                     <dxg:GridColumn.CellTemplate>
