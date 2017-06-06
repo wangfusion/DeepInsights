@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://www.codeplex.com/prism"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -10,6 +11,7 @@
              xmlns:commonconverters="clr-namespace:DeepInsights.Shell.Infrastructure.Converters;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonconstants="clr-namespace:DeepInsights.Shell.Infrastructure.Constants;assembly=DeepInsights.Shell.Infrastructure"
              xmlns:commonutils="clr-namespace:DeepInsights.Shell.Infrastructure.Utilities;assembly=DeepInsights.Shell.Infrastructure"
+             xmlns:commoncontrols="clr-namespace:DeepInsights.Shell.Infrastructure.Controls;assembly=DeepInsights.Shell.Infrastructure"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -24,10 +26,6 @@
                 <Setter Property="Padding" Value="5,1,0,1" />
             </Style>
 
-            <DataTemplate x:Key="WatchListHeaderTemplate">
-                
-            </DataTemplate>
-            
             <DataTemplate x:Key="WatchListItemTemplate">
                 <Grid Margin="0,0,0,2">
                     <Grid.RowDefinitions>
@@ -95,6 +93,14 @@
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding ViewLoadedCommand}" />
         </i:EventTrigger>
+
+        <prism:InteractionRequestTrigger SourceObject="{Binding QuoteSelectionRequest, Mode=OneWay}">
+            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <commoncontrols:QuoteSelectionView />
+                </prism:PopupWindowAction.WindowContent>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
 
     <Grid>
@@ -110,23 +116,26 @@
         
         <TextBlock Margin="0,15,0,0" HorizontalAlignment="Center" Text="Failed to load module... " TextWrapping="Wrap" 
                    Visibility="{Binding ModuleStatus.HasErrors, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        
-        
-        
-        <dxg:GridControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedInstrument}"
-                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Instruments}"
-                         Visibility="{Binding ModuleStatus.IsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <dxg:GridControl.Columns>
-                <dxg:GridColumn CellTemplate="{StaticResource WatchListItemTemplate}" />
-            </dxg:GridControl.Columns>
-            <dxg:GridControl.View>
-                <dxg:TableView AllowCascadeUpdate="True" AllowColumnFiltering="False" AllowGrouping="False" AllowSorting="False" 
-                               HeaderTemplate="{StaticResource WatchListHeaderTemplate}"
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.95*" />
+                <RowDefinition Height="0.05*" />
+            </Grid.RowDefinitions>
+            <dxg:GridControl Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedItem="{Binding SelectedInstrument}"
+                             HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Instruments}"
+                             Visibility="{Binding ModuleStatus.IsLoaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <dxg:GridControl.Columns>
+                    <dxg:GridColumn CellTemplate="{StaticResource WatchListItemTemplate}" />
+                </dxg:GridControl.Columns>
+                <dxg:GridControl.View>
+                    <dxg:TableView AllowCascadeUpdate="True" AllowColumnFiltering="False" AllowGrouping="False" AllowSorting="False" 
                                AutoWidth="True" NavigationStyle="Row" HorizontalScrollbarVisibility="Auto" RowStyle="{StaticResource SelectedRowStyle}"
                                ShowDataNavigator="False" ShowIndicator="False" ShowGroupPanel="False" ShowVerticalLines="False" 
                                ShowColumnHeaders="False" UseEvenRowBackground="True" VerticalScrollbarVisibility="Auto"  />
-            </dxg:GridControl.View>
-        </dxg:GridControl> 
-        <!--<Button Command="{Binding Path=RefreshPricesCommand, Mode=OneWay}" />-->
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+            <dx:SimpleButton Grid.Row="1" Content="Add Quote" Command="{Binding RaiseQuotesSelectionCommand}" />
+        </Grid>
     </Grid>
 </UserControl>

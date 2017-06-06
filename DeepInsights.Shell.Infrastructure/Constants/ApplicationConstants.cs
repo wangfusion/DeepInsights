@@ -12,5 +12,6 @@
         public static readonly string FX_ACCOUNT_ENDPOINT = "/v3/accounts/{0}";
         public static readonly string FX_PRICING_ENDPOINT = "/v3/accounts/101-003-4355710-001/pricing";
         public static readonly string FX_CANDLES_ENDPOINT = "/v3/instruments/{0}/candles";
+        public static readonly string FX_INSTRUMENTS_ENDPOINT = "/v3/accounts/{0}/instruments";
     }
 }

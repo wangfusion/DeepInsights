@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Mvvm.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Docking.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.Prism.Composition, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Composition.5.0.0\lib\NET45\Microsoft.Practices.Prism.Composition.dll</HintPath>
@@ -82,7 +86,12 @@
     <Compile Include="Constants\ApplicationConstants.cs" />
     <Compile Include="Constants\CandlestickConstants.cs" />
     <Compile Include="Constants\CurrencyConstants.cs" />
+    <Compile Include="Constants\ForexJsonParameterConstants.cs" />
     <Compile Include="Constants\ImageConstants.cs" />
+    <Compile Include="Controls\QuoteSelectionView.xaml.cs">
+      <DependentUpon>QuoteSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QuoteSelectionViewModel.cs" />
     <Compile Include="Converters\BooleanAndConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Events\InstrumentChangedEvent.cs" />
@@ -97,6 +106,7 @@
     <Compile Include="RegionNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ModuleStatus.cs" />
+    <Compile Include="Utilities\QuoteSelectionNotification.cs" />
     <Compile Include="Utilities\RangeObservableCollection.cs" />
     <Compile Include="Utilities\SharedResourceDictionary.cs" />
     <Compile Include="Utilities\ValidatableBindableBase.cs" />
@@ -115,6 +125,12 @@
     <Resource Include="Images\ArrowUp.png" />
     <Resource Include="Images\Volume.png" />
     <Resource Include="Images\ZeroDynamic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\QuoteSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,5 +6,6 @@ namespace DeepInsights.Services
     public interface IForexWatchListService
     {
         Task<string> GetLiveForexPricesJson(IEnumerable<string> quoteNames);
+        Task<string> GetAvailableForexQuotes();
     }
 }

@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using Microsoft.Practices.Prism.Regions;
 using DevExpress.Xpf.Docking;
-using System;
 
 namespace DeepInsights.Shell.Infrastructure.RegionAdapters
 {

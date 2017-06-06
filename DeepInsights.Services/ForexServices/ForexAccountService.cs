@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace DeepInsights.Services.ForexServices
 {
     [Export(typeof(IForexAccountService))]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public class ForexAccountService : ForexServicesBase, IForexAccountService
     {
         public async Task<string> GetAccountData()

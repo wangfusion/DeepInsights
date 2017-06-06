@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DeepInsights.Components.Account.ViewModels
 {
@@ -43,14 +44,7 @@ namespace DeepInsights.Components.Account.ViewModels
         public ModuleStatus ModuleStatus
         {
             get { return _ModuleStatus; }
-            set
-            {
-                if (_ModuleStatus != value)
-                {
-                    SetProperty(ref _ModuleStatus, value);
-                    OnPropertyChanged(() => ModuleStatus);
-                }
-            }
+            set { SetProperty(ref _ModuleStatus, value); }
         }
 
         public RangeObservableCollection<KeyValuePair<string, string>> AccountKeyValuePairs
@@ -68,7 +62,7 @@ namespace DeepInsights.Components.Account.ViewModels
 
         #region Commands
 
-        public DelegateCommand ViewLoadedCommand
+        public ICommand ViewLoadedCommand
         {
             get;
             private set;

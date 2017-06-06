@@ -1,6 +1,7 @@
 ﻿using DeepInsights.Shell.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,12 +16,35 @@ namespace DeepInsights.Services
         {
             string instrumentsQuotes = string.Join(",", quoteNames);
 
+            var queryParameters = new NameValueCollection();
+            queryParameters.Add(ForexJsonParameterConstants.Instruments, instrumentsQuotes);
+            Uri endPoint = new Uri(ApplicationConstants.FX_URL + ApplicationConstants.FX_PRICING_ENDPOINT);
+
+            return await DownloadJsonAsync(endPoint, queryParameters);
+        }
+
+        public async Task<string> GetAvailableForexQuotes()
+        {
+            Uri endPoint = new Uri(ApplicationConstants.FX_URL + string.Format(ApplicationConstants.FX_INSTRUMENTS_ENDPOINT, ApplicationConstants.FX_ACCOUNTID));
+
+            return await DownloadJsonAsync(endPoint);
+        }
+
+        private async Task<string> DownloadJsonAsync(Uri endPoint)
+        {
+            return await DownloadJsonAsync(endPoint, null);
+        }
+
+        private async Task<string> DownloadJsonAsync(Uri endPoint, NameValueCollection queryParameters)
+        {
             using (var webClient = new WebClient())
             {
                 SetAuthorizationHeader(webClient);
-                webClient.QueryString.Add("instruments", instrumentsQuotes);
+                if (queryParameters != null)
+                {
+                    webClient.QueryString.Add(queryParameters);
+                }
 
-                Uri endPoint = new Uri(ApplicationConstants.FX_URL + ApplicationConstants.FX_PRICING_ENDPOINT);
                 return await webClient.DownloadStringTaskAsync(endPoint);
             }
         }

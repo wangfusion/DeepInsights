@@ -9,6 +9,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace DeepInsights.Components.MarketNews.ViewModels
 {
@@ -58,11 +59,7 @@ namespace DeepInsights.Components.MarketNews.ViewModels
             get { return _ModuleStatus; }
             set
             {
-                if (_ModuleStatus != value)
-                {
-                    SetProperty(ref _ModuleStatus, value);
-                    OnPropertyChanged(() => ModuleStatus);
-                }
+                SetProperty(ref _ModuleStatus, value);
             }
         }
 
@@ -72,10 +69,8 @@ namespace DeepInsights.Components.MarketNews.ViewModels
             get { return _Mobile; }
             set
             {
-                if (_Mobile != value)
+                if (SetProperty(ref _Mobile, value))
                 {
-                    SetProperty(ref _Mobile, value);
-                    OnPropertyChanged(() => Mobile);
                     Errors = FlattenErrors();
                 }
             }
@@ -91,7 +86,7 @@ namespace DeepInsights.Components.MarketNews.ViewModels
 
         #region Commands
 
-        public DelegateCommand ViewLoadedCommand
+        public ICommand ViewLoadedCommand
         {
             get;
             private set;

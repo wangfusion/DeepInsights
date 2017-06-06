@@ -11,8 +11,8 @@ namespace DeepInsights.Components.HistoricalPrices.Views
         [ImportingConstructor]
         public HistoricalPricesMainView(HistoricalPricesMainViewModel viewModel)
         {
-            InitializeComponent();
             DataContext = viewModel;
+            InitializeComponent();
         }
 
         public string GetPanelCaption()

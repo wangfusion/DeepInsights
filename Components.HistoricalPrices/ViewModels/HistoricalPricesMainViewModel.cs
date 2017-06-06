@@ -4,7 +4,6 @@ using DeepInsights.Shell.Infrastructure;
 using DeepInsights.Shell.Infrastructure.Constants;
 using DeepInsights.Shell.Infrastructure.Events;
 using DeepInsights.Shell.Infrastructure.Utilities;
-using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Newtonsoft.Json;
@@ -63,14 +62,7 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
         public ModuleStatus ModuleStatus
         {
             get { return _ModuleStatus; }
-            set
-            {
-                if (_ModuleStatus != value)
-                {
-                    SetProperty(ref _ModuleStatus, value);
-                    OnPropertyChanged(() => ModuleStatus);
-                }
-            }
+            set { SetProperty(ref _ModuleStatus, value); }
         }
 
         public RangeObservableCollection<Candle> Candles

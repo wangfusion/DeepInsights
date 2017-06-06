@@ -39,40 +39,19 @@ namespace DeepInsights.Components.TopDashboard.ViewModels
         public string LondonTime
         {
             get { return _LondonTime; }
-            set
-            {
-                if (_LondonTime != value)
-                {
-                    SetProperty(ref _LondonTime, value);
-                    OnPropertyChanged(() => LondonTime);
-                }
-            }
+            set { SetProperty(ref _LondonTime, value); }
         }
 
         public string NewYorkTime
         {
             get { return _NewYorkTime; }
-            set
-            {
-                if (_NewYorkTime != value)
-                {
-                    SetProperty(ref _NewYorkTime, value);
-                    OnPropertyChanged(() => NewYorkTime);
-                }
-            }
+            set { SetProperty(ref _NewYorkTime, value); }
         }
 
         public string TokyoTime
         {
             get { return _TokyoTime; }
-            set
-            {
-                if (_TokyoTime != value)
-                {
-                    SetProperty(ref _TokyoTime, value);
-                    OnPropertyChanged(() => TokyoTime);
-                }
-            }
+            set { SetProperty(ref _TokyoTime, value); }
         }
 
         #endregion
