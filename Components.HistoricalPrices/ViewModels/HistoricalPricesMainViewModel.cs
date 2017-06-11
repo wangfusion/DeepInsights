@@ -19,7 +19,7 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
 {
     [Export]
     [PartCreationPolicy(CreationPolicy.NonShared)]
-    public class HistoricalPricesMainViewModel : BindableBase
+    public class HistoricalPricesMainViewModel : BindableBase, IDisposable
     {
         #region Private Fields
 
@@ -127,10 +127,16 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
             _EventAggregator.GetEvent<InstrumentChangedEvent>().Subscribe(ChangeChartInstrument);
         }
 
+        private void UnsubscribeFromEvents()
+        {
+            _EventAggregator.GetEvent<InstrumentChangedEvent>().Unsubscribe(ChangeChartInstrument);
+        }
+
         private async Task GetCandlestickData(string quoteName)
         {
             try
             {
+                //System.Diagnostics.Debugger.Break();
                 string candlesJson = await _ForexHistoricalPricesService.GetCandleSticksData(quoteName, CandlestickConstants.AskCandles, CandlestickConstants.Day, DateTime.Now.AddMonths(-1), DateTime.Now.AddDays(-1));
                 dynamic candlesResult = JsonConvert.DeserializeObject(candlesJson);
                 InstrumentName = quoteName;
@@ -184,6 +190,15 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
         private async void ChangeChartInstrument(string quoteName)
         {
             await GetCandlestickData(quoteName);
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
+
+        public void Dispose()
+        {
+            UnsubscribeFromEvents();
         }
 
         #endregion
