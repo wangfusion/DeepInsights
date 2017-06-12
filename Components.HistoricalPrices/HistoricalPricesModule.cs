@@ -1,5 +1,6 @@
 ﻿using DeepInsights.Components.HistoricalPrices.Views;
 using DeepInsights.Shell.Infrastructure;
+using DeepInsights.Shell.Infrastructure.Utilities;
 using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
@@ -22,7 +23,7 @@ namespace DeepInsights.Components.HistoricalPrices
         [ImportingConstructor]
         public HistoricalPricesModule(IRegionManager regionManager)
         {
-            if (regionManager == null) throw new ArgumentNullException("regionManager");
+            regionManager.ThrowIfNull("regionManager");
 
             _RegionManager = regionManager;
         }

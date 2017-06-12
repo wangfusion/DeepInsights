@@ -75,7 +75,7 @@ namespace DeepInsights.Shell.Infrastructure.Utilities
 
         private void InternalAddRange(IEnumerable<T> list, bool clearFirst)
         {
-            if (list == null) throw new ArgumentNullException("list");
+            list.ThrowIfNull("list");
 
             _SuppressNotification = true;
 

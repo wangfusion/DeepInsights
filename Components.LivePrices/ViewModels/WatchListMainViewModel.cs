@@ -40,8 +40,8 @@ namespace DeepInsights.Components.WatchList.ViewModels
             Instruments = new RangeObservableCollection<Instrument>();
             QuoteSelectionRequest = new InteractionRequest<QuoteSelectionNotification>();
 
-            if (forexWatchListService == null) throw new ArgumentNullException("forexWatchListService");
-            if (eventAggregator == null) throw new ArgumentNullException("eventAggregator");
+            forexWatchListService.ThrowIfNull("forexWatchListService");
+            eventAggregator.ThrowIfNull("eventAggregator");
 
             _ForexWatchListService = forexWatchListService;
             _EventAggregator = eventAggregator;

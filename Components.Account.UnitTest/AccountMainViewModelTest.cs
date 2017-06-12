@@ -5,7 +5,7 @@ using Moq;
 using System;
 using System.Net;
 
-namespace Components.Account.UnitTest
+namespace DeepInsights.Components.Account.UnitTests
 {
     [TestClass]
     public class AccountMainViewModelTest

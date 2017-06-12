@@ -31,7 +31,7 @@ namespace DeepInsights.Components.MarketNews.ViewModels
         [ImportingConstructor]
         public MarketNewsMainViewModel(INewsFeedService newsFeedService)
         {
-            if (newsFeedService == null) throw new ArgumentNullException("newsFeedService"); 
+            newsFeedService.ThrowIfNull("newsFeedService");
 
             _NewsFeedService = newsFeedService;
             DailyNews = new RangeObservableCollection<News>();

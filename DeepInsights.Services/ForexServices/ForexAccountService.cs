@@ -1,4 +1,5 @@
 ﻿using DeepInsights.Shell.Infrastructure;
+using DeepInsights.Shell.Infrastructure.Utilities;
 using System;
 using System.ComponentModel.Composition;
 using System.Net;
@@ -8,17 +9,23 @@ namespace DeepInsights.Services.ForexServices
 {
     [Export(typeof(IForexAccountService))]
     [PartCreationPolicy(CreationPolicy.Shared)]
-    public class ForexAccountService : ForexServicesBase, IForexAccountService
+    public class ForexAccountService : IForexAccountService
     {
+        private readonly IHttpUtilities _HttpUtilities;
+
+        [ImportingConstructor]
+        public ForexAccountService(IHttpUtilities httpUtilities)
+        {
+            httpUtilities.ThrowIfNull("httpUtilities");
+
+            _HttpUtilities = httpUtilities;
+        }
+
         public async Task<string> GetAccountData()
         {
-            using (var webClient = new WebClient())
-            {
-                SetAuthorizationHeader(webClient);
+            Uri fullUri = new Uri(ApplicationConstants.FX_URL + string.Format(ApplicationConstants.FX_ACCOUNT_ENDPOINT, ApplicationConstants.FX_ACCOUNTID));
 
-                Uri endPoint = new Uri(ApplicationConstants.FX_URL + string.Format(ApplicationConstants.FX_ACCOUNT_ENDPOINT, ApplicationConstants.FX_ACCOUNTID));
-                return await webClient.DownloadStringTaskAsync(endPoint);
-            }
+            return await _HttpUtilities.GetStringAsync(fullUri);
         }
     }
 }

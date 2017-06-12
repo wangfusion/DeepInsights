@@ -7,8 +7,8 @@
     <ProjectGuid>{13FF1073-D3B9-4AF4-A0EA-B450604598A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Components.Account.UnitTest</RootNamespace>
-    <AssemblyName>Components.Account.UnitTest</AssemblyName>
+    <RootNamespace>DeepInsights.Components.Account.UnitTest</RootNamespace>
+    <AssemblyName>DeepInsights.Components.Account.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

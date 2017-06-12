@@ -30,7 +30,7 @@ namespace DeepInsights.Components.Account.ViewModels
         [ImportingConstructor]
         public AccountMainViewModel(IForexAccountService forexAccountService)
         {
-            if (forexAccountService == null) throw new ArgumentNullException("forexAccountService");
+            forexAccountService.ThrowIfNull("forexAccountService");
             _ForexAccountService = forexAccountService;
 
             InitializeCommands();

@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using DeepInsights.Shell.Infrastructure.Utilities;
+using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.ViewModel;
 using System;
 using System.Collections;
@@ -47,7 +48,7 @@ namespace DeepInsights.Shell.Infrastructure
 
         public bool ValidateProperty(string propertyName)
         {
-            if (string.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("propertyName");
+            propertyName.ThrowIfNull("propertyName");
 
             var propertyInfo = GetType().GetRuntimeProperty(propertyName);
             if (propertyInfo == null) throw new ArgumentException("Invalid property name", propertyName);

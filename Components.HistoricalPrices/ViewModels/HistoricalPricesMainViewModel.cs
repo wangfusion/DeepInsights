@@ -41,7 +41,7 @@ namespace DeepInsights.Components.HistoricalPrices.ViewModels
         [ImportingConstructor]
         public HistoricalPricesMainViewModel(IForexHistoricalPricesService forexHistoricalPricesService, IEventAggregator eventAggregator)
         {
-            if (forexHistoricalPricesService == null) throw new ArgumentNullException("forexHistoricalPricesService");
+            forexHistoricalPricesService.ThrowIfNull("forexHistoricalPricesService");
 
             _ForexHistoricalPricesService = forexHistoricalPricesService;
             _EventAggregator = eventAggregator;

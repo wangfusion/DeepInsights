@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeepInsights.Shell.Infrastructure.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,7 +14,7 @@ namespace DeepInsights.Shell.Infrastructure
 
         public ErrorsContainer(Action<string> raiseErrorsChanged)
         {
-            if (raiseErrorsChanged == null) throw new ArgumentNullException("raiseErrorsChanged");
+            raiseErrorsChanged.ThrowIfNull("raiseErrorsChanged");
 
             this.raiseErrorsChanged = raiseErrorsChanged;
             validationResults = new Dictionary<string, List<T>>();

@@ -5,6 +5,7 @@ using Microsoft.Practices.Prism.MefExtensions.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using DeepInsights.Shell.Infrastructure;
 using DeepInsights.Components.MarketNews.Views;
+using DeepInsights.Shell.Infrastructure.Utilities;
 
 namespace DeepInsights.Components.MarketNews
 {
@@ -22,7 +23,7 @@ namespace DeepInsights.Components.MarketNews
         [ImportingConstructor]
         public MarketNewsModule(IRegionManager regionManager)
         {
-            if (regionManager == null) throw new ArgumentNullException("regionManager"); 
+            regionManager.ThrowIfNull("regionManager");
 
             _RegionManager = regionManager;
         }
