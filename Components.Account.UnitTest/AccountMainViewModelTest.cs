@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Net;
+using System.Net.Http;
 
 namespace DeepInsights.Components.Account.UnitTests
 {
@@ -62,7 +63,7 @@ namespace DeepInsights.Components.Account.UnitTests
         {
             // Arrange
             var forexAccountService = new Mock<IForexAccountService>();
-            forexAccountService.Setup(s => s.GetAccountData()).ThrowsAsync(new WebException("Bad Request"));
+            forexAccountService.Setup(s => s.GetAccountData()).ThrowsAsync(new HttpRequestException("Bad Request"));
             var target = new AccountMainViewModel(forexAccountService.Object);
 
             // Act

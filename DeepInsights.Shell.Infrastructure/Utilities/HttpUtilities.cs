@@ -17,7 +17,9 @@ namespace DeepInsights.Shell.Infrastructure.Utilities
 
         public HttpUtilities()
         {
-            _HttpClient = new HttpClient();
+            // Make sure the Framework don't try to auto-detect proxy settings
+            var handler = new HttpClientHandler { UseProxy = false };
+            _HttpClient = new HttpClient(handler);
             _HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApplicationConstants.FX_TOKEN);
         }
 

@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -140,10 +141,15 @@ namespace DeepInsights.Components.WatchList.ViewModels
                 ModuleStatus.IsLoaded = true;
                 RaiseQuotesSelectionCommand.RaiseCanExecuteChanged();
             }
-            catch (Exception exception)
+            catch (HttpRequestException httpException)
             {
                 ModuleStatus.HasErrors = true;
-                ModuleStatus.ErrorMessage = exception.Message;
+                ModuleStatus.ErrorMessage = httpException.Message;
+            }
+            catch (Exception)
+            {
+                // Todo: Log and rethrow
+                throw;
             }
         }
 
@@ -205,10 +211,19 @@ namespace DeepInsights.Components.WatchList.ViewModels
                     _QuoteSelectionNotification.Quotes.Add(quote);
                 }
             }
-            catch (Exception ex)
+            catch (HttpRequestException httpRequestException)
             {
                 // To refactor into messagebox service
-                System.Windows.MessageBox.Show("There was an issue getting the full list of quotes: " + ex.Message);
+                System.Windows.MessageBox.Show("There was an issue getting the full list of quotes: " + httpRequestException.Message);
+            }
+            catch (JsonSerializationException serializationException)
+            {
+                System.Windows.MessageBox.Show("There was an issue getting the full list of quotes: " + serializationException.Message);
+            }
+            catch (Exception)
+            {
+                // Todo: Log and rethrow
+                throw;
             }
         }
 

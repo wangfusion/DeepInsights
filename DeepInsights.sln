@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.Account.UnitTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.HistoricalPrices.UnitTests", "Components.HistoricalPrices.UnitTests\Components.HistoricalPrices.UnitTests.csproj", "{DD923FE5-FAF6-454F-9237-65C98F83B184}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepInsights.Shell.Infrastructure.UnitTests", "DeepInsights.Shell.Infrastructure.UnitTests\DeepInsights.Shell.Infrastructure.UnitTests.csproj", "{7C0F88CA-43CE-40D8-AD54-F09806AD91B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{DD923FE5-FAF6-454F-9237-65C98F83B184}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD923FE5-FAF6-454F-9237-65C98F83B184}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD923FE5-FAF6-454F-9237-65C98F83B184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C0F88CA-43CE-40D8-AD54-F09806AD91B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C0F88CA-43CE-40D8-AD54-F09806AD91B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C0F88CA-43CE-40D8-AD54-F09806AD91B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C0F88CA-43CE-40D8-AD54-F09806AD91B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

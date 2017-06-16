@@ -3,21 +3,34 @@ using DevExpress.Xpf.Core;
 using System.Windows.Threading;
 using System;
 using System.Threading.Tasks;
+using DeepInsights.Shell.Infrastructure.Utilities;
+using System.Collections.Generic;
 
 namespace DeepInsights.Shell
 {
-    public partial class App : Application
+    public partial class App : Application, ISingleInstanceApp
     {
+        private static readonly string _ApplicationGuid = "Global\\DeepInsights - {452d28e8 - e95b - 46cb - ac5d - 1fdd31808077}";
+
+        #region Application overrides
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            RegisterGlobalExceptionHandling();
-            ApplicationThemeHelper.ApplicationThemeName = Theme.MetropolisDarkName;
-            base.OnStartup(e);
+            if (SingleInstance<App>.InitializeAsFirstInstance(_ApplicationGuid))
+            {
+                RegisterGlobalExceptionHandling();
+                ApplicationThemeHelper.ApplicationThemeName = Theme.MetropolisDarkName;
+                base.OnStartup(e);
 
-            var bootstrapper = new Bootstrapper();
-            bootstrapper.Run();
-            ShutdownMode = ShutdownMode.OnMainWindowClose;
+                var bootstrapper = new Bootstrapper();
+                bootstrapper.Run();
+                ShutdownMode = ShutdownMode.OnMainWindowClose;
+            }
         }
+
+        #endregion
+
+        #region Exception Handling
 
         private void RegisterGlobalExceptionHandling()
         {
@@ -72,5 +85,24 @@ namespace DeepInsights.Shell
             // Todo: Add logging
             args.SetObserved();
         }
+
+        #endregion
+
+        #region ISingleInstanceApp Members
+
+        public bool SignalExternalCommandLineArgs(IList<string> args)
+        {
+            // Bring window to foreground
+            if (MainWindow.WindowState == WindowState.Minimized)
+            {
+                MainWindow.WindowState = WindowState.Normal;
+            }
+
+            MainWindow.Activate();
+
+            return true;
+        }
+
+        #endregion
     }
 }

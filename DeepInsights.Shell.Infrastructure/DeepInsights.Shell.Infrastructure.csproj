@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>DeepInsightsKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Mvvm.v16.2, Version=16.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
@@ -73,6 +79,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -107,6 +114,9 @@
     <Compile Include="Utilities\HttpUtilities.cs" />
     <Compile Include="Utilities\IHttpUtilities.cs" />
     <Compile Include="Utilities\NameValueCollectionExtensions.cs" />
+    <Compile Include="Utilities\Security\DigitalSigningHelper.cs" />
+    <Compile Include="Utilities\Security\SymmetricEncryptionHelper.cs" />
+    <Compile Include="Utilities\SingleInstance.cs" />
     <Compile Include="Utilities\TaskCombinatorExtensions.cs" />
     <Compile Include="Utilities\ErrorsContainerEnhanced.cs" />
     <Compile Include="RegionNames.cs" />
@@ -118,6 +128,7 @@
     <Compile Include="Utilities\ValidatableBindableBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DeepInsightsKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
