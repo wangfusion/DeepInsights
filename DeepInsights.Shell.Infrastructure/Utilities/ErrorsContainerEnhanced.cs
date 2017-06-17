@@ -8,7 +8,7 @@ namespace DeepInsights.Shell.Infrastructure
 {
     public class ErrorsContainer<T>
     {
-        private static readonly T[] noErrors = new T[0];
+        private readonly T[] noErrors = new T[0];
         private readonly Action<string> raiseErrorsChanged;
         private readonly Dictionary<string, List<T>> validationResults;
 
@@ -50,7 +50,7 @@ namespace DeepInsights.Shell.Infrastructure
         public IEnumerable<T> GetErrors<TProperty>(Expression<Func<TProperty>> propertyExpression)
         {
             var propertyName = Microsoft.Practices.Prism.Mvvm.PropertySupport.ExtractPropertyName(propertyExpression);
-            return this.GetErrors(propertyName);
+            return GetErrors(propertyName);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures")]

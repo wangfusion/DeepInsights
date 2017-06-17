@@ -17,9 +17,14 @@ namespace DeepInsights.Shell.Infrastructure
     {
         #region Private Fields
 
-        ErrorsContainer<string> _ErrorsContainer;
+        Lazy<ErrorsContainer<string>> _ErrorsContainer;
 
         #endregion
+
+        public ValidatableBindableBase()
+        {
+            _ErrorsContainer = new Lazy<ErrorsContainer<string>>(() => new ErrorsContainer<string>(pn => RaiseErrorsChanged(pn)), true);
+        }
 
         #region Public Fields
 
@@ -33,12 +38,7 @@ namespace DeepInsights.Shell.Infrastructure
         {
             get
             {
-                if (_ErrorsContainer == null)
-                {
-                    _ErrorsContainer = new ErrorsContainer<string>(pn => RaiseErrorsChanged(pn));
-                }
-
-                return _ErrorsContainer;
+                return _ErrorsContainer.Value;
             }
         }
 
